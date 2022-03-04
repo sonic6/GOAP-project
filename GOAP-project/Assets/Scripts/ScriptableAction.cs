@@ -5,12 +5,15 @@ using UnityEngine;
 [CreateAssetMenu]
 public class ScriptableAction : ScriptableObject
 {
-    public string _name;
+    [SerializeField] protected string _name;
+    [SerializeField] protected int cost;
     [Space(10)]
-    public string _effectKey;
-    public bool _effectValue;
+    [SerializeField] protected string effectKey;
+    [SerializeField] protected bool effectValue;
     [Space(10)]
-    public string _preconditionKey;
-    public bool _preconditionValue;
+    [SerializeField] protected string preconditionKey;
+    [SerializeField] protected bool preconditionValue;
+    [Space(10)]
+    [SerializeField] protected AnimationClip Clip;
 
 }
