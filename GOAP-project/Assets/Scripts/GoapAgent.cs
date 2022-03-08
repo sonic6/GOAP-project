@@ -6,7 +6,6 @@ using UnityEditor.Animations;
 public class GoapAgent : MonoBehaviour
 {
     Planner planner;
-    ActionSet myActionSet;
     AnimatorStateMachine myMachine;
 
     [SerializeField] Animator animator;
