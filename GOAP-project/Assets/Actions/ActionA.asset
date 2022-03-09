@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ActionA
   m_EditorClassIdentifier: 
   _name: 
-  cost: 0
+  cost: 5
   effectKey: A
   effectValue: 0
   preconditionKey: B

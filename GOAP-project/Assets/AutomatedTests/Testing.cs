@@ -15,6 +15,7 @@ public class Testing : MonoBehaviour
         Goal goal = new Goal(testGoal);
         Planner planner = FindObjectOfType<Planner>();
         Plan plan = planner.DebugPlanMaker(goal);
+        plan.actions.Reverse();
         debugPlan.AddRange(plan.actions);
     }
 }

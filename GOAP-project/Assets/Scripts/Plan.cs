@@ -8,4 +8,9 @@ public class Plan
     /// a list of actions in a correct order which an agent will follow
     /// </summary>
     public List<ScriptableAction> actions;
+
+    public Plan()
+    {
+        actions = new List<ScriptableAction>();
+    }
 }
