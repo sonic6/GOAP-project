@@ -5,8 +5,7 @@ using UnityEngine;
 public class Planner : MonoBehaviour
 {
     [SerializeField] ActionSet agentActionSet;
-
-    private List<ScriptableAction> open = new List<ScriptableAction>();
+    
     private List<ScriptableAction> closed = new List<ScriptableAction>();
     
 
@@ -47,25 +46,28 @@ public class Planner : MonoBehaviour
         //}
 
         List<ScriptableAction> graph = new List<ScriptableAction>();
-        plan.actions.AddRange(CreateAStarPlan(goal, graph));
+        List<ScriptableAction> actionSet = new List<ScriptableAction>();
+        actionSet.AddRange(agentActionSet.actions);
+        plan.actions.AddRange(CreateAStarPlan(goal, graph, actionSet));
 
         return plan;
     }
 
     //uses recursion to create a list of actions that can reach a goal and costs the least amount 
-    List<ScriptableAction> CreateAStarPlan(Goal goal, List<ScriptableAction> graph)
+    List<ScriptableAction> CreateAStarPlan(Goal goal, List<ScriptableAction> graph, List<ScriptableAction> actionSet)
     {
-        print(graph.Count);
         List<ScriptableAction> currentRow = new List<ScriptableAction>();
 
         //Create a row in graph
-        foreach(ScriptableAction action in agentActionSet.actions)
+        foreach(ScriptableAction action in actionSet)
         {
-            if(action.effectKey == goal._name)
+            if (action.effectKey == goal._name)
             {
                 currentRow.Add(action);
             }
         }
+        closed = currentRow;
+        actionSet = RemoveActions(actionSet, closed);
 
         int maxCost = 10;
         ScriptableAction cheapestAction = currentRow[0];
@@ -83,7 +85,6 @@ public class Planner : MonoBehaviour
         graph.Add(cheapestAction);
 
         Goal newGoal = new Goal(cheapestAction.preconditionKey);
-        print(newGoal._name);
 
         List<ScriptableAction> finalGraph = new List<ScriptableAction>();
 
@@ -91,8 +92,17 @@ public class Planner : MonoBehaviour
         //this check should check the world state instead of if goal has empty name =>
         // => implement that when a world representation system has been implemented
         if (newGoal._name != string.Empty) 
-            finalGraph.AddRange(CreateAStarPlan(newGoal, graph));
+            finalGraph.AddRange(CreateAStarPlan(newGoal, graph, actionSet));
 
         return graph;
+    }
+
+    List<ScriptableAction> RemoveActions(List<ScriptableAction> allActions, List<ScriptableAction> removableActions)
+    {
+        foreach(ScriptableAction action in removableActions)
+        {
+            allActions.Remove(action);
+        }
+        return allActions;
     }
 }
