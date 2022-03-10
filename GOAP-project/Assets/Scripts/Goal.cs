@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class Goal
 {
-    public string _name;
+    public WorldState.states goalState;
 
-    public Goal(string _name)
+    public Goal(WorldState.states goalState)
     {
-        this._name = _name;
+        this.goalState = goalState;
     }
 }

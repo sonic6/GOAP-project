@@ -379,6 +379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agentActionSet: {fileID: 11400000, guid: bce7e2f827099e944a37e2bcbb4f61df, type: 2}
+  closed: []
 --- !u!114 &503698838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -648,7 +649,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8056eb6f70506a04f980cbda68fc8a1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testGoal: A
+  goalState: 0
+  testWorkingMemory: 03000000010000000400000002000000
   debugPlan: []
 --- !u!1 &1083613636
 GameObject:
