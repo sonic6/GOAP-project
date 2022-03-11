@@ -650,7 +650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goalState: 0
-  testWorkingMemory: 03000000010000000400000002000000
+  testWorkingMemory: 030000000100000002000000
   debugPlan: []
 --- !u!1 &1083613636
 GameObject:

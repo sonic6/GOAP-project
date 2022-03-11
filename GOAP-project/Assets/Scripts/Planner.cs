@@ -8,31 +8,26 @@ public class Planner : MonoBehaviour
     
     public List<ScriptableAction> closed = new List<ScriptableAction>();
     
-
     /// <summary>
-    /// Creates a plan using a A* algorithm for an agent to follow
+    /// Creates a plan of actions based on a given goal
     /// </summary>
     /// <param name="goal"></param>
     /// <returns></returns>
     public Plan CreatePlan(Goal goal)
-    {
-        return new Plan();
-    }
-
-    public Plan DebugPlanMaker(Goal goal)
     {
         Plan plan = new Plan();
 
         List<ScriptableAction> graph = new List<ScriptableAction>();
         List<ScriptableAction> actionSet = new List<ScriptableAction>();
         actionSet.AddRange(agentActionSet.actions);
-        plan.actions.AddRange(CreateAStarPlan(goal, graph, actionSet));
+        plan.actions.AddRange(CreateActionGraph(goal, graph, actionSet));
+        plan.actions.Reverse();
 
         return plan;
     }
 
     //uses recursion to create a list of actions that can reach a goal and costs the least amount 
-    List<ScriptableAction> CreateAStarPlan(Goal goal, List<ScriptableAction> graph, List<ScriptableAction> actionSet)
+    List<ScriptableAction> CreateActionGraph(Goal goal, List<ScriptableAction> graph, List<ScriptableAction> actionSet)
     {
         List<ScriptableAction> opened = new List<ScriptableAction>();
 
@@ -70,7 +65,7 @@ public class Planner : MonoBehaviour
         //this check stops the recursion if an action has been found that does not have a precondition
         //and that represents the end node of a A* action graph
         if (newGoal.goalState != WorldState.states.noState) 
-            finalGraph.AddRange(CreateAStarPlan(newGoal, graph, actionSet));
+            finalGraph.AddRange(CreateActionGraph(newGoal, graph, actionSet));
         
         return graph;
     }

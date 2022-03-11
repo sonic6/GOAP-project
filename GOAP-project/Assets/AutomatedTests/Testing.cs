@@ -16,8 +16,8 @@ public class Testing : MonoBehaviour
         WorldState.workingMemory.AddRange(testWorkingMemory);
         Goal goal = new Goal(goalState);
         Planner planner = FindObjectOfType<Planner>();
-        Plan plan = planner.DebugPlanMaker(goal);
-        plan.actions.Reverse();
+        Plan plan = planner.CreatePlan(goal);
+        
         debugPlan.AddRange(plan.actions);
     }
 }
