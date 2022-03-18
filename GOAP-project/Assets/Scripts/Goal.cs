@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class Goal
 {
-    public WorldState.states goalState;
+    public WorldState.state goalState;
 
-    public Goal(WorldState.states goalState)
+    public Goal(WorldState.state goalState)
     {
         this.goalState = goalState;
     }

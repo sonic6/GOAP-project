@@ -4,9 +4,9 @@ using UnityEngine;
 
 public static class WorldState
 {
-    public static List<states> workingMemory = new List<states>();
+    public static List<state> workingMemory = new List<state>();
 
-    public enum states
+    public enum state
     {
         playerCaptured, 
         projectileAvailable, 

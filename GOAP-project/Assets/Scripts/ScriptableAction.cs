@@ -8,10 +8,10 @@ public class ScriptableAction : ScriptableObject
     public string _name;
     public int cost;
     [Space(10)]
-    public WorldState.states effectKey;
+    public WorldState.state effectKey;
     public bool effectValue;
     [Space(10)]
-    public WorldState.states preconditionKey;
+    public WorldState.state preconditionKey;
     public bool preconditionValue;
     [Space(10)]
     public AnimationClip Clip;

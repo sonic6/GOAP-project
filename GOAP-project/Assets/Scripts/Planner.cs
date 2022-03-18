@@ -15,11 +15,15 @@ public class Planner : MonoBehaviour
     /// <returns></returns>
     public Plan CreatePlan(Goal goal)
     {
+        closed.Clear(); //To begin with a clean list
         Plan plan = new Plan();
 
         List<ScriptableAction> graph = new List<ScriptableAction>();
+
+        //The original actionSet (the scriptable object) is copied to a new list. To prevent the code from making changes to the original actionSet
         List<ScriptableAction> actionSet = new List<ScriptableAction>();
-        actionSet.AddRange(agentActionSet.actions);
+        actionSet.AddRange(agentActionSet.actions); 
+
         plan.actions.AddRange(CreateActionGraph(goal, graph, actionSet));
         plan.actions.Reverse();
 
@@ -64,12 +68,13 @@ public class Planner : MonoBehaviour
         //Recursively finds the next suitable action
         //this check stops the recursion if an action has been found that does not have a precondition
         //and that represents the end node of a A* action graph
-        if (newGoal.goalState != WorldState.states.noState) 
+        if (newGoal.goalState != WorldState.state.noState) 
             finalGraph.AddRange(CreateActionGraph(newGoal, graph, actionSet));
         
         return graph;
     }
 
+    //Removes one set of actions from another set of actions 
     List<ScriptableAction> RemoveActions(List<ScriptableAction> allActions, List<ScriptableAction> removableActions)
     {
         foreach(ScriptableAction action in removableActions)
