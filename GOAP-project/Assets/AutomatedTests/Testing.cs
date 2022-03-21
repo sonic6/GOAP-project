@@ -11,7 +11,7 @@ public class Testing : MonoBehaviour
     public List<ScriptableAction> debugPlan;
     
 
-    void Awake()
+    void Start()
     {
         RunTest();
     }
@@ -20,8 +20,9 @@ public class Testing : MonoBehaviour
     {
         WorldState.workingMemory.AddRange(testWorkingMemory);
         Goal goal = new Goal(goalState);
-        Planner planner = FindObjectOfType<Planner>();
-        Plan plan = planner.CreatePlan(goal);
+        Planner planner = FindObjectOfType<GoapAgent>().planner;
+        Plan plan = FindObjectOfType<GoapAgent>().ObtainNewPlan(goal);
+        FindObjectOfType<GoapAgent>().ExecutePlan(plan);
 
         debugPlan.AddRange(plan.actions);
     }

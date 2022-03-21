@@ -4,8 +4,10 @@ using UnityEngine;
 using UnityEditor.Animations;
 
 public class GoapAgent : MonoBehaviour
+
 {
-    Planner planner;
+    [SerializeField] ActionSet agentActionSet;
+    [HideInInspector] public Planner planner = new Planner();
     AnimatorStateMachine myMachine;
 
     [SerializeField] Animator animator;
@@ -13,10 +15,16 @@ public class GoapAgent : MonoBehaviour
 
     List<AnimationClip> clips;
 
-    private void Start()
+    public Plan ObtainNewPlan(Goal goal)
     {
-        
+        return planner.CreatePlan(goal, agentActionSet);
     }
+
+    public void ExecutePlan(Plan plan)
+    {
+        PlanExecuter.main.Execute(plan);
+    }
+
 
     public void Animate(AnimationClip clip)
     {

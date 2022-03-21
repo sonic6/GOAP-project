@@ -2,18 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Planner : MonoBehaviour
+public class Planner
 {
-    [SerializeField] ActionSet agentActionSet;
-    
     public List<ScriptableAction> closed = new List<ScriptableAction>();
-    
+
     /// <summary>
     /// Creates a plan of actions based on a given goal
     /// </summary>
     /// <param name="goal"></param>
+    /// <param name="agentActionSet"></param>
     /// <returns></returns>
-    public Plan CreatePlan(Goal goal)
+    public Plan CreatePlan(Goal goal, ActionSet agentActionSet)
     {
         closed.Clear(); //To begin with a clean list
         Plan plan = new Plan();

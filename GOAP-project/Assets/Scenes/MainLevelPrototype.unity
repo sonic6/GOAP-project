@@ -367,20 +367,6 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: baa036a0db5d9a349877f6c00a0f1dcb, type: 3}
   m_PrefabInstance: {fileID: 1173737358}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &503698837
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 503698835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cce7647d00cf6e47b1b067f5c02c57a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentActionSet: {fileID: 11400000, guid: bce7e2f827099e944a37e2bcbb4f61df, type: 2}
-  closed: []
 --- !u!114 &503698838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,6 +379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9db3850bc71069143ba9598ac1ecb80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agentActionSet: {fileID: 11400000, guid: bce7e2f827099e944a37e2bcbb4f61df, type: 2}
   animator: {fileID: 503698836}
   overrider: {fileID: 22100000, guid: 178469114bed98e41a2905fdc776a8ae, type: 2}
 --- !u!1 &705507993
@@ -566,6 +553,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -653,6 +641,18 @@ MonoBehaviour:
   goalState: 0
   testWorkingMemory: 030000000100000002000000
   debugPlan: []
+--- !u!114 &963194230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69057f7c6b2922c47b4f1425d60b3f8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1083613636
 GameObject:
   m_ObjectHideFlags: 0
