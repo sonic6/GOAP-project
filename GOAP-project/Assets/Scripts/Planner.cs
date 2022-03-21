@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Planner
 {
-    public List<ScriptableAction> closed = new List<ScriptableAction>();
+    private List<ScriptableAction> closedList = new List<ScriptableAction>();
 
     /// <summary>
     /// Creates a plan of actions based on a given goal
@@ -14,42 +14,43 @@ public class Planner
     /// <returns></returns>
     public Plan CreatePlan(Goal goal, ActionSet agentActionSet)
     {
-        closed.Clear(); //To begin with a clean list
+        closedList.Clear(); //To begin with a clean list
         Plan plan = new Plan();
 
-        List<ScriptableAction> graph = new List<ScriptableAction>();
+        List<ScriptableAction> actionList = new List<ScriptableAction>();
 
         //The original actionSet (the scriptable object) is copied to a new list. To prevent the code from making changes to the original actionSet
         List<ScriptableAction> actionSet = new List<ScriptableAction>();
         actionSet.AddRange(agentActionSet.actions); 
 
-        plan.actions.AddRange(CreateActionGraph(goal, graph, actionSet));
+        plan.actions.AddRange(SearchActions(goal, actionList, actionSet));
         plan.actions.Reverse();
 
         return plan;
     }
 
     //uses recursion to create a list of actions that can reach a goal and costs the least amount 
-    List<ScriptableAction> CreateActionGraph(Goal goal, List<ScriptableAction> graph, List<ScriptableAction> actionSet)
+    List<ScriptableAction> SearchActions(Goal goal, List<ScriptableAction> openList, List<ScriptableAction> actionSet)
     {
-        List<ScriptableAction> opened = new List<ScriptableAction>();
+        List<ScriptableAction> graphRow = new List<ScriptableAction>();
+        closedList = new List<ScriptableAction>();
 
-        //Create a row in graph
+        //Create a row in a graph
         foreach (ScriptableAction action in actionSet)
         {
             if (action.effectKey == goal.goalState && WorldState.workingMemory.Contains(action.preconditionKey))
             {
-                opened.Add(action);
+                graphRow.Add(action);
             }
         }
-        closed.AddRange(opened);
-        actionSet = RemoveActions(actionSet, closed);
+        closedList.AddRange(graphRow);
+        actionSet = RemoveActions(actionSet, closedList);
 
         int maxCost = 10;
-        ScriptableAction cheapestAction = opened[0];
+        ScriptableAction cheapestAction = graphRow[0];
 
         //Find cheapest action in row
-        foreach(ScriptableAction action in opened)
+        foreach(ScriptableAction action in graphRow)
         {
             if(action.cost < maxCost)
             {
@@ -58,7 +59,7 @@ public class Planner
             }
         }
         
-        graph.Add(cheapestAction);
+        openList.Add(cheapestAction);
 
         Goal newGoal = new Goal(cheapestAction.preconditionKey);
 
@@ -68,9 +69,9 @@ public class Planner
         //this check stops the recursion if an action has been found that does not have a precondition
         //and that represents the end node of a A* action graph
         if (newGoal.goalState != WorldState.state.noState) 
-            finalGraph.AddRange(CreateActionGraph(newGoal, graph, actionSet));
+            finalGraph.AddRange(SearchActions(newGoal, openList, actionSet));
         
-        return graph;
+        return openList;
     }
 
     //Removes one set of actions from another set of actions 
