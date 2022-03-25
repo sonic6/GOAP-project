@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class Testing : MonoBehaviour
 {
-    [SerializeField] WorldState.state goalState;
-    [SerializeField] List<WorldState.state> testWorkingMemory = new List<WorldState.state>();
+    [SerializeField] WorldState goalState;
+    [SerializeField] List<WorldState> testWorkingMemory = new List<WorldState>();
+    public GoapAgent agent;
 
     public List<ScriptableAction> debugPlan;
     
@@ -18,7 +19,7 @@ public class Testing : MonoBehaviour
 
     public void RunTest()
     {
-        WorldState.workingMemory.AddRange(testWorkingMemory);
+        agent.memory.states.AddRange(testWorkingMemory);
         Goal goal = new Goal(goalState);
         Planner planner = FindObjectOfType<GoapAgent>().planner;
         Plan plan = FindObjectOfType<GoapAgent>().ObtainNewPlan(goal);

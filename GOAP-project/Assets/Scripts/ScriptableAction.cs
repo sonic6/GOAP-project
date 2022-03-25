@@ -5,9 +5,9 @@ public class ScriptableAction : ScriptableObject
 {
     public int cost;
     [Space(10)]
-    public WorldState.state effectKey;
+    public WorldState effectKey;
     [Space(10)]
-    public WorldState.state preconditionKey;
+    public WorldState preconditionKey;
     [Space(10)]
     public AnimationClip Clip;
 

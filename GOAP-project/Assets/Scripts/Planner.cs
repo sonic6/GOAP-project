@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class Planner
 {
+    private GoapAgent myAgent;
     private List<ScriptableAction> closedList = new List<ScriptableAction>();
+
+    public Planner(GoapAgent agent)
+    {
+        myAgent = agent;
+    }
 
     /// <summary>
     /// Creates a plan of actions based on a given goal
@@ -35,7 +41,7 @@ public class Planner
         //Create a row in a graph
         foreach (ScriptableAction action in actionSet)
         {
-            if (action.effectKey == goal.goalState && WorldState.workingMemory.Contains(action.preconditionKey))
+            if (action.effectKey == goal.goalState && myAgent.memory.states.Contains(action.preconditionKey))
             {
                 graphRow.Add(action);
             }
@@ -65,7 +71,7 @@ public class Planner
         //Recursively finds the next suitable action
         //this check stops the recursion if an action has been found that does not have a precondition
         //and that represents the end node of a A* action graph
-        if (newGoal.goalState != WorldState.state.noState) 
+        if (newGoal.goalState != WorldState.noState) 
             finalGraph.AddRange(SearchActions(newGoal, openList, actionSet));
         
         return openList;

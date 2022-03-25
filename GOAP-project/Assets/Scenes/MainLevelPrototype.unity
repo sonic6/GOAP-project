@@ -640,6 +640,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goalState: 0
   testWorkingMemory: 030000000100000002000000
+  agent: {fileID: 503698838}
   debugPlan: []
 --- !u!114 &963194230
 MonoBehaviour:
