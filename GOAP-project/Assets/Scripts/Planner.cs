@@ -15,17 +15,14 @@ public class Planner
     public Plan CreatePlan(Goal goal, ActionSet agentActionSet)
     {
         closedList.Clear(); //To begin with a clean list
-        Plan plan = new Plan();
-
+        
         List<ScriptableAction> actionList = new List<ScriptableAction>();
 
         //The original actionSet (the scriptable object) is copied to a new list. To prevent the code from making changes to the original actionSet
         List<ScriptableAction> actionSet = new List<ScriptableAction>();
-        actionSet.AddRange(agentActionSet.actions); 
+        actionSet.AddRange(agentActionSet.actions);
 
-        plan.actions.AddRange(SearchActions(goal, actionList, actionSet));
-        plan.actions.Reverse();
-
+        Plan plan = new Plan(SearchActions(goal, actionList, actionSet));
         return plan;
     }
 

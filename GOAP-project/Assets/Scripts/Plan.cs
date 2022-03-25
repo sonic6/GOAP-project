@@ -7,10 +7,16 @@ public class Plan
     /// <summary>
     /// a list of actions in a correct order which an agent will follow
     /// </summary>
-    public List<ScriptableAction> actions;
+    private List<ScriptableAction> actions = new List<ScriptableAction>();
 
-    public Plan()
+    public Plan(List<ScriptableAction> actions)
     {
-        actions = new List<ScriptableAction>();
+        this.actions = actions;
+        this.actions.Reverse();
+    }
+
+    public List<ScriptableAction> GetActions()
+    {
+        return actions;
     }
 }

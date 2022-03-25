@@ -24,6 +24,6 @@ public class Testing : MonoBehaviour
         Plan plan = FindObjectOfType<GoapAgent>().ObtainNewPlan(goal);
         FindObjectOfType<GoapAgent>().ExecutePlan(plan);
 
-        debugPlan.AddRange(plan.actions);
+        debugPlan.AddRange(plan.GetActions());
     }
 }

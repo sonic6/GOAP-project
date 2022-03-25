@@ -16,7 +16,7 @@ public class PlanExecuter : MonoBehaviour
 
     public void Execute(Plan plan)
     {
-        foreach(ScriptableAction action in plan.actions)
+        foreach(ScriptableAction action in plan.GetActions())
         {
             Invoke(action.name, 0);
         }
