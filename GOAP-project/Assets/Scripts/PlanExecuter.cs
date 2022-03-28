@@ -8,14 +8,17 @@ using UnityEngine.AI;
 public class PlanExecuter : MonoBehaviour
 {
     public static PlanExecuter main;
+    private GameObject currentAgent;
 
     private void Awake()
     {
         main = this;
     }
 
-    public void Execute(Plan plan)
+    public void Execute(Plan plan, GameObject agent)
     {
+        currentAgent = agent;
+
         foreach(ScriptableAction action in plan.GetActions())
         {
             Invoke(action.name, 0);
@@ -29,7 +32,8 @@ public class PlanExecuter : MonoBehaviour
 
     void SearchForPlayer()
     {
-        print("found Player");
+        NavMeshAgent nav = currentAgent.GetComponent<NavMeshAgent>();
+        //Find new destination
     }
 
     void CapturePlayerMelee()

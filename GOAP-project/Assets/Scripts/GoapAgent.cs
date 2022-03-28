@@ -28,7 +28,7 @@ public class GoapAgent : MonoBehaviour
 
     public void ExecutePlan(Plan plan)
     {
-        PlanExecuter.main.Execute(plan);
+        PlanExecuter.main.Execute(plan, gameObject);
     }
 
 
@@ -36,4 +36,15 @@ public class GoapAgent : MonoBehaviour
     {
         
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag.ToLower() == "hunted")
+        {
+            memory.states.Add(WorldState.playerSeen);
+            Plan myPlan = ObtainNewPlan(new Goal(WorldState.playerCaptured));
+            ExecutePlan(myPlan);
+        }
+    }
+    
 }
