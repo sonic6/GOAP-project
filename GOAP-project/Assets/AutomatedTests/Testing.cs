@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 
 public class Testing : MonoBehaviour
@@ -10,11 +11,20 @@ public class Testing : MonoBehaviour
     public GoapAgent agent;
 
     public List<ScriptableAction> debugPlan;
-    
 
-    void Start()
+
+    #region "animations"
+    public Animator animator;
+    public AnimatorOverrideController overrider;
+    public AnimationClip clip;
+    protected AnimationClipOverrides clipOverrides;
+    #endregion
+
+
+
+    void Awake()
     {
-        RunTest();
+        //RunTest();
     }
 
     public void RunTest()
@@ -26,5 +36,17 @@ public class Testing : MonoBehaviour
         FindObjectOfType<GoapAgent>().ExecutePlan(plan);
 
         debugPlan.AddRange(plan.GetActions());
+    }
+
+    public void OverrideAnimation(AnimationClip clip)
+    {
+        clipOverrides = new AnimationClipOverrides(overrider.overridesCount);
+        overrider.GetOverrides(clipOverrides);
+        animator.runtimeAnimatorController = overrider;
+        animator.SetTrigger("UseObject");
+        //overrider.animationClips.SetValue(clip, 0);
+        clipOverrides["UseObject"] = clip;
+        //animator.SetBool("SmoothSwitch", true);
+        overrider.ApplyOverrides(clipOverrides);
     }
 }
