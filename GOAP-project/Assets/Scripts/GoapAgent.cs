@@ -11,7 +11,7 @@ public class GoapAgent : MonoBehaviour
     AnimatorStateMachine myMachine;
 
     [SerializeField] Animator animator;
-    [SerializeField] AnimatorOverrideController overrider;
+    public AnimatorOverrideController overrider;
 
     List<AnimationClip> clips;
 
@@ -28,7 +28,7 @@ public class GoapAgent : MonoBehaviour
 
     public void ExecutePlan(Plan plan)
     {
-        PlanExecuter.main.Execute(plan, gameObject);
+        StartCoroutine(PlanExecuter.main.Execute(plan, gameObject));
     }
 
 
@@ -45,6 +45,12 @@ public class GoapAgent : MonoBehaviour
             Plan myPlan = ObtainNewPlan(new Goal(WorldState.playerCaptured));
             ExecutePlan(myPlan);
         }
+    }
+
+    
+    public void AddMemory(WorldState newMemory)
+    {
+        memory.states.Add(newMemory);
     }
     
 }

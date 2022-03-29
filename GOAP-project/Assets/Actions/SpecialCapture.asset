@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f7d2a465160d3747b6cda79d8b034c2, type: 3}
   m_Name: SpecialCapture
   m_EditorClassIdentifier: 
-  _name: 
   cost: 9
   effectKey: 0
-  effectValue: 0
   preconditionKey: 3
-  preconditionValue: 0
-  Clip: {fileID: 0}
+  Clip: {fileID: -203655887218126122, guid: 7d67e3de8689ed7448cd1506e5e263ce, type: 3}
+  state: 2

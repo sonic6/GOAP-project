@@ -15,13 +15,17 @@ public class PlanExecuter : MonoBehaviour
         main = this;
     }
 
-    public void Execute(Plan plan, GameObject agent)
+    public IEnumerator Execute(Plan plan, GameObject agent)
     {
         currentAgent = agent;
 
         foreach(ScriptableAction action in plan.GetActions())
         {
             Invoke(action.name, 0);
+            AnimationHandler.OverrideAnimation(agent, action.Clip, action.state);
+            yield return new WaitForSeconds(action.Clip.length);
+            //agent.GetComponent<Animator>().ResetTrigger(action.state.ToString());
+            AnimationHandler.ResetAnimatorTriggers(agent);
         }
     }
 

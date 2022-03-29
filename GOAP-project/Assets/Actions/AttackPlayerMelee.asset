@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f7d2a465160d3747b6cda79d8b034c2, type: 3}
   m_Name: AttackPlayerMelee
   m_EditorClassIdentifier: 
-  _name: 
   cost: 5
   effectKey: 4
-  effectValue: 0
   preconditionKey: 2
-  preconditionValue: 0
-  Clip: {fileID: 0}
+  Clip: {fileID: -203655887218126122, guid: b7cd54c38fe1aff43a8264d5b96acd3c, type: 3}
+  state: 2

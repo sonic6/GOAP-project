@@ -25,6 +25,10 @@ public class Testing : MonoBehaviour
     void Awake()
     {
         //RunTest();
+        foreach(WorldState memory in testWorkingMemory)
+        {
+            agent.AddMemory(memory);
+        }
     }
 
     public void RunTest()
@@ -44,9 +48,7 @@ public class Testing : MonoBehaviour
         overrider.GetOverrides(clipOverrides);
         animator.runtimeAnimatorController = overrider;
         animator.SetTrigger("UseObject");
-        //overrider.animationClips.SetValue(clip, 0);
         clipOverrides["UseObject"] = clip;
-        //animator.SetBool("SmoothSwitch", true);
         overrider.ApplyOverrides(clipOverrides);
     }
 }

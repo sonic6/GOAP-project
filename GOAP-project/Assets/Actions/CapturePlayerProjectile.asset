@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f7d2a465160d3747b6cda79d8b034c2, type: 3}
   m_Name: CapturePlayerProjectile
   m_EditorClassIdentifier: 
-  _name: 
   cost: 1
   effectKey: 0
-  effectValue: 0
   preconditionKey: 1
-  preconditionValue: 0
-  Clip: {fileID: 7400000, guid: ef386879cd372e9419d297738fb39e9a, type: 2}
+  Clip: {fileID: -203655887218126122, guid: 71494815c3eef2049b11821a3ab91a7f, type: 3}
+  state: 2

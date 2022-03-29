@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f7d2a465160d3747b6cda79d8b034c2, type: 3}
   m_Name: SearchForPlayer
   m_EditorClassIdentifier: 
-  _name: 
   cost: 9
   effectKey: 2
-  effectValue: 0
   preconditionKey: 3
-  preconditionValue: 0
-  Clip: {fileID: 0}
+  Clip: {fileID: -203655887218126122, guid: 75c665967fe60ac4cbde227f14bc8712, type: 3}
+  state: 1
