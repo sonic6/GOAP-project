@@ -19,16 +19,16 @@ public class PatrolSystemEditor : EditorWindow
         GUILayout.Label("Welcome to the patrol system editor!", EditorStyles.centeredGreyMiniLabel);
         GUILayout.Label("Here you can drag and drop a parent object which containts patrol points as children", EditorStyles.boldLabel);
         GUILayout.Label("when you press 'visualize' this editor will draw lines between the patrol points", EditorStyles.boldLabel);
-        AddPatrolWeb();
+        //AddPatrolWeb();
     }
 
-    private void AddPatrolWeb()
-    {
-        web = EditorGUILayout.ObjectField("parent", web, typeof(PatrolWeb), true) as PatrolWeb;
+    //private void AddPatrolWeb()
+    //{
+    //    web = EditorGUILayout.ObjectField("parent", web, typeof(PatrolWeb), true) as PatrolWeb;
 
-        if (GUILayout.Button("Visualize"))
-        {
-            web.points = web.GetComponentsInChildren<PatrolPoint>().ToList();
-        }
-    }
+    //    if (GUILayout.Button("Visualize"))
+    //    {
+    //        web.points = web.GetComponentsInChildren<PatrolPoint>().ToList();
+    //    }
+    //}
 }

@@ -5,11 +5,12 @@ using UnityEngine;
 public abstract class PatrolPoint : MonoBehaviour
 {
     [SerializeField] protected float size; //Sets the size of the gizmo 
-    public PatrolPoint nextPoint;
+    [SerializeField] protected PatrolPoint nextPoint;
 
     private void OnDrawGizmos()
     {
         DrawSphere();
+        DrawLine(new List<PatrolPoint>(), 0);
     }
     
     /// <summary>
@@ -32,4 +33,6 @@ public abstract class PatrolPoint : MonoBehaviour
     /// <param name="nextPositionIndex"></param>
     /// <param name="skip"></param>
     public abstract void SetNextPoint(List<PatrolPoint> patrolPoints, int nextPositionIndex, int skip = 1);
+
+    public abstract PatrolPoint GetNextPoint();
 }
