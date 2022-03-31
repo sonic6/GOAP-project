@@ -2,31 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PatrolPoint : MonoBehaviour
+public abstract class PatrolPoint : MonoBehaviour
 {
     [SerializeField] protected float size; //Sets the size of the gizmo 
+    public PatrolPoint nextPoint;
 
     private void OnDrawGizmos()
     {
         DrawSphere();
     }
+    
+    /// <summary>
+    /// Draws a gizmo sphere in the editor
+    /// </summary>
+    public abstract void DrawSphere();
 
-    //Draws a blue sphere using wire sphere gizmos
-    public virtual void DrawSphere()
-    {
-        Gizmos.color = Color.blue; //Sets the color of the gizmo
-        Gizmos.DrawWireSphere(transform.position, size); //Creates a gizmo in the scene view
-    }
+    /// <summary>
+    /// Draws lines between patrol points in the editor
+    /// </summary>
+    /// <param name="patrolPoints"></param>
+    /// <param name="nextPositionIndex"></param>
+    /// <param name="skip"></param>
+    public abstract void DrawLine(List<PatrolPoint> patrolPoints, int nextPositionIndex, int skip = 1);
 
-    public virtual void DrawLine(List<PatrolPoint> patrolPoints, int nextPositionIndex)
-    {
-        Gizmos.color = Color.blue; //Sets the color of the gizmo
-        //This try catch block is used to ignore the error caused by the mthod trying to draw a line towards a non-existing point (end of the list)
-        try
-        {
-            Gizmos.DrawLine(transform.position, patrolPoints[nextPositionIndex].transform.position);
-        }
-        catch { }
-        
-    }
+    /// <summary>
+    /// Determines which point is the next point during gameplay
+    /// </summary>
+    /// <param name="patrolPoints"></param>
+    /// <param name="nextPositionIndex"></param>
+    /// <param name="skip"></param>
+    public abstract void SetNextPoint(List<PatrolPoint> patrolPoints, int nextPositionIndex, int skip = 1);
 }

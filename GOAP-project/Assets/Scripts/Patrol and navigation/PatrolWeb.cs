@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PatrolWeb : MonoBehaviour
 {
@@ -8,13 +9,11 @@ public class PatrolWeb : MonoBehaviour
 
     public List<PatrolPoint> points = new List<PatrolPoint>();
 
-    //private void OnValidate()
-    //{
-    //    foreach (PatrolPoint point in gameObject.GetComponentsInChildren<PatrolPoint>())
-    //    {
-    //        points.Add(point);
-    //    }
-    //}
+    private void Awake()
+    {
+        points = GetComponentsInChildren<PatrolPoint>().ToList();
+        SetSpots();
+    }
 
     private void OnDrawGizmos()
     {
@@ -23,9 +22,16 @@ public class PatrolWeb : MonoBehaviour
 
     public void DrawWeb()
     {
-        for (int i = 0; i < points.Capacity; i++)
-        {
-            points[i].DrawLine(points, i+1);
-        }
+        //for (int i = 0; i < points.Capacity; i++)
+        //{
+        //    points[i].DrawLine(points, i+1);
+        //}
+
+        points[0].DrawLine(points, 1);
+    }
+
+    private void SetSpots()
+    {
+        points[0].SetNextPoint(points, 1);
     }
 }

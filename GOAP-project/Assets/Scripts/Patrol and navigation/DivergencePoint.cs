@@ -5,6 +5,7 @@ using UnityEngine;
 public class DivergencePoint : PatrolPoint
 {
     [SerializeField] int paths;
+    [SerializeField] List<PatrolPoint> nextPoints;
 
     public override void DrawSphere()
     {
@@ -12,7 +13,7 @@ public class DivergencePoint : PatrolPoint
         Gizmos.DrawWireSphere(transform.position, size); //Creates a gizmo in the scene view
     }
 
-    public override void DrawLine(List<PatrolPoint> patrolPoints, int nextPositionIndex)
+    public override void DrawLine(List<PatrolPoint> patrolPoints, int nextPositionIndex, int skip)
     {
         for(int i = 0; i < paths; i++)
         {
@@ -20,9 +21,29 @@ public class DivergencePoint : PatrolPoint
             //This try catch block is used to ignore the error caused by the mthod trying to draw a line towards a non-existing point (end of the list)
             try
             {
+                int next = nextPositionIndex + i + paths;
                 Gizmos.DrawLine(transform.position, patrolPoints[nextPositionIndex + i].transform.position);
+                
+                patrolPoints[nextPositionIndex + i].DrawLine(patrolPoints, next, paths);
             }
             catch { }
+
+            
+        }
+    }
+
+    public override void SetNextPoint(List<PatrolPoint> patrolPoints, int nextPositionIndex, int skip)
+    {
+        for (int i = 0; i < paths; i++)
+        {
+            try
+            {
+                nextPoints.Add(patrolPoints[nextPositionIndex + i]);
+                nextPoints[i].SetNextPoint(patrolPoints, nextPositionIndex + i + paths, paths);
+            }
+            catch { }
+
+            
         }
     }
 }
