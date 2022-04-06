@@ -29,7 +29,6 @@ public class Planner
         actionSet.AddRange(agentActionSet.actions);
 
         Plan plan = new Plan(SearchActions(goal, actionList, actionSet));
-        Debug.Log(plan);
         return plan;
     }
 

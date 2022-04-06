@@ -7,9 +7,14 @@ public class PatrolWeb
 {
     public static PatrolWeb main;
     public List<PatrolPoint> points = new List<PatrolPoint>();
+
+    public PatrolWeb(Transform parent)
+    {
+        FindPoints(parent);
+    }
     
     //Finds all the patrol points that are children to 'parent'
-    public void FindPoints(Transform parent)
+    private void FindPoints(Transform parent)
     {
         main = this;
         points = parent.GetComponentsInChildren<PatrolPoint>().ToList();

@@ -21,11 +21,21 @@ public class PlanExecuter : MonoBehaviour
 
         foreach(ScriptableAction action in plan.GetActions())
         {
+            DisplayPlanConsole(plan);
+
             Invoke(action.name, 0);
             AnimationHandler.OverrideAnimation(agent, action.Clip, action.state);
             yield return new WaitForSeconds(action.Clip.length);
             //agent.GetComponent<Animator>().ResetTrigger(action.state.ToString());
             AnimationHandler.ResetAnimatorTriggers(agent);
+        }
+    }
+
+    void DisplayPlanConsole(Plan plan)
+    {
+        foreach(ScriptableAction action in plan.GetActions())
+        {
+            print(action.name);
         }
     }
 
@@ -36,8 +46,7 @@ public class PlanExecuter : MonoBehaviour
 
     void SearchForPlayer()
     {
-        NavMeshAgent nav = currentAgent.GetComponent<NavMeshAgent>();
-        //Find new destination
+        currentAgent.GetComponent<GoapAgent>().proximity.searching = true;
     }
 
     void CapturePlayerMelee()

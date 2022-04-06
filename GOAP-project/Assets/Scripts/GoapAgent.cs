@@ -11,27 +11,38 @@ public class GoapAgent : MonoBehaviour
     [HideInInspector] public Planner planner;
     //AnimatorStateMachine myMachine;
     private NavMeshAgent navAgent;
-    private PatrolPoint destination;
+    [HideInInspector] public PatrolPoint destination;
 
+    [Tooltip("Add a memory for this agent to start with. Other than the noState memory")]
+    [SerializeField] WorldState firstMemory;
 
     [SerializeField] Animator animator;
     public AnimatorOverrideController overrider;
 
     List<AnimationClip> clips;
 
-    private void Awake()
+    //Sensors
+    public ProximitySensor proximity;
+    
+
+    private void Start()
+    {
+        SetUpAgent();
+        Goal firstGoal = new Goal(WorldState.playerSeen);
+        Plan firstPlan = ObtainNewPlan(firstGoal);
+        ExecutePlan(firstPlan);
+    }
+
+    private void SetUpAgent()
     {
         navAgent = GetComponent<NavMeshAgent>();
         destination = NearestPatrolPoint();
         memory = new WorkingMemory();
         planner = new Planner(this);
-        
-    }
+        proximity = new ProximitySensor(this);
+        navAgent.SetDestination(destination.transform.position);
 
-    private void Start()
-    {
-        
-        navAgent.SetDestination(NearestPatrolPoint().transform.position);
+        AddMemory(firstMemory);
     }
 
     private PatrolPoint NearestPatrolPoint()
@@ -68,6 +79,7 @@ public class GoapAgent : MonoBehaviour
     {
         if(other.tag.ToLower() == "hunted")
         {
+            navAgent.SetDestination(transform.position); //Stops teh navmesh agent from going towards the destination from a previous plan
             memory.states.Add(WorldState.playerSeen);
             Plan myPlan = ObtainNewPlan(new Goal(WorldState.playerCaptured));
             ExecutePlan(myPlan);
@@ -91,7 +103,7 @@ public class GoapAgent : MonoBehaviour
 
     private void Update()
     {
-        DebugMove();
+        proximity.IfNearTarget();
     }
 
 
