@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: HunterActionSet
   m_EditorClassIdentifier: 
   actions:
-  - {fileID: 11400000, guid: 740ce2bb1e62c5640bb2d485b49a6c8d, type: 2}
-  - {fileID: 11400000, guid: ef7b94cbf7ef36a41ac79f2a7e6b7ce9, type: 2}
   - {fileID: 11400000, guid: ea844cd498c261e40ad671691da593cb, type: 2}
   - {fileID: 11400000, guid: df6928d6bdebe7b4e885a79c17c40c8f, type: 2}
   - {fileID: 11400000, guid: 1e23d0de3a3edde41b5a0621a2b8a835, type: 2}
-  - {fileID: 11400000, guid: 5c3694cd33806444dbb21cfaa68c0926, type: 2}
+  - {fileID: 11400000, guid: 13c1845ea8dbacb40892a8e32c9468d3, type: 2}

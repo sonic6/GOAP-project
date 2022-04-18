@@ -26,7 +26,7 @@ public class ProximitySensor
             //Create new goal and plan and execute
             Goal newGoal = new Goal(WorldState.playerSeen);
             Plan newPlan = myAgent.ObtainNewPlan(newGoal);
-            myAgent.ExecutePlan(newPlan);
+            myAgent.ExecutePlan(newPlan, null);
         }
     }
 }

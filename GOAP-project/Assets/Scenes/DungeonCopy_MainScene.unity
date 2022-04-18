@@ -14573,6 +14573,10 @@ PrefabInstance:
       propertyPath: m_AngularSpeed
       value: 300
       objectReference: {fileID: 0}
+    - target: {fileID: 5551018291693684646, guid: 737753913dc9d804fb5cc8cfa7119861, type: 3}
+      propertyPath: m_WarningMessage
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 737753913dc9d804fb5cc8cfa7119861, type: 3}
 --- !u!1001 &344058141

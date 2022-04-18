@@ -8,16 +8,18 @@ using UnityEngine.AI;
 public class PlanExecuter : MonoBehaviour
 {
     public static PlanExecuter main;
-    private GameObject currentAgent;
+    private GameObject currentAgent; //The agent whose plan will be executed
+    private GameObject currentTarget; //The gameobject that is targeted by an action
 
     private void Awake()
     {
         main = this;
     }
 
-    public IEnumerator Execute(Plan plan, GameObject agent)
+    public IEnumerator Execute(Plan plan, GameObject agent, GameObject target)
     {
         currentAgent = agent;
+        currentTarget = target;
 
         foreach(ScriptableAction action in plan.GetActions())
         {
@@ -39,9 +41,14 @@ public class PlanExecuter : MonoBehaviour
         }
     }
 
-    void GoTowards(NavMeshAgent navAgent, Vector3 location)
+    void GoTowards()
     {
-        
+        print("went towards");
+        currentAgent.GetComponent<NavMeshAgent>().SetDestination(currentTarget.transform.position);
+        //Implement a Wait until target is nearby function 
+
+        currentAgent.GetComponent<GoapAgent>().memory.states.Add(WorldState.playerNear);
+
     }
 
     void SearchForPlayer()

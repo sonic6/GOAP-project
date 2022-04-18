@@ -6,20 +6,22 @@ using UnityEngine.AI;
 
 public class GoapAgent : MonoBehaviour
 {
+    public List<WorldState> debugDisplayMemories = new List<WorldState>(); //Debugging
+    public List<ScriptableAction> DebugDisplayPlan = new List<ScriptableAction>(); //Debugging
+
     public WorkingMemory memory { get; private set; }
     [SerializeField] ActionSet agentActionSet;
     [HideInInspector] public Planner planner;
-    //AnimatorStateMachine myMachine;
     private NavMeshAgent navAgent;
     [HideInInspector] public PatrolPoint destination;
 
     [Tooltip("Add a memory for this agent to start with. Other than the noState memory")]
     [SerializeField] WorldState firstMemory;
 
-    [SerializeField] Animator animator;
+    //[SerializeField] Animator animator;
     public AnimatorOverrideController overrider;
 
-    List<AnimationClip> clips;
+    //List<AnimationClip> clips;
 
     //Sensors
     public ProximitySensor proximity;
@@ -30,7 +32,7 @@ public class GoapAgent : MonoBehaviour
         SetUpAgent();
         Goal firstGoal = new Goal(WorldState.playerSeen);
         Plan firstPlan = ObtainNewPlan(firstGoal);
-        ExecutePlan(firstPlan);
+        ExecutePlan(firstPlan, gameObject);
     }
 
     private void SetUpAgent()
@@ -61,12 +63,14 @@ public class GoapAgent : MonoBehaviour
 
     public Plan ObtainNewPlan(Goal goal)
     {
-        return planner.CreatePlan(goal, agentActionSet);
+        Plan newPlan = planner.CreatePlan(goal, agentActionSet);
+        DebugDisplayPlan = newPlan.GetActions();
+        return newPlan;
     }
 
-    public void ExecutePlan(Plan plan)
+    public void ExecutePlan(Plan plan, GameObject target)
     {
-        StartCoroutine(PlanExecuter.main.Execute(plan, gameObject));
+        StartCoroutine(PlanExecuter.main.Execute(plan, gameObject, target));
     }
 
 
@@ -82,7 +86,7 @@ public class GoapAgent : MonoBehaviour
             navAgent.SetDestination(transform.position); //Stops teh navmesh agent from going towards the destination from a previous plan
             memory.states.Add(WorldState.playerSeen);
             Plan myPlan = ObtainNewPlan(new Goal(WorldState.playerCaptured));
-            ExecutePlan(myPlan);
+            ExecutePlan(myPlan, other.gameObject);
         }
     }
 
@@ -99,10 +103,16 @@ public class GoapAgent : MonoBehaviour
             navAgent.SetDestination(destination.transform.position);
             destination = destination.GetNextPoint();
         }
+    } 
+
+    private void DebugDisplayMemories()
+    {
+        debugDisplayMemories = memory.states;
     }
 
     private void Update()
     {
+        DebugDisplayMemories();
         proximity.IfNearTarget();
     }
 

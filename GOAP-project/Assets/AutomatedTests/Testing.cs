@@ -37,7 +37,7 @@ public class Testing : MonoBehaviour
         Goal goal = new Goal(goalState);
         Planner planner = FindObjectOfType<GoapAgent>().planner;
         Plan plan = FindObjectOfType<GoapAgent>().ObtainNewPlan(goal);
-        FindObjectOfType<GoapAgent>().ExecutePlan(plan);
+        FindObjectOfType<GoapAgent>().ExecutePlan(plan, null);
 
         debugPlan.AddRange(plan.GetActions());
     }

@@ -5,5 +5,6 @@ public enum WorldState
     projectileAvailable,
     playerSeen,
     noState,
-    meleeAvailable
+    meleeAvailable, 
+    playerNear
 }

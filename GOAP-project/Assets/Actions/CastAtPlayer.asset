@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CastAtPlayer
   m_EditorClassIdentifier: 
   cost: 2
-  effectKey: 1
-  preconditionKey: 2
+  effectKey: 0
+  preconditionKey: 1
   Clip: {fileID: -203655887218126122, guid: 5ea22e8375d105b44bb5b6b90565c03a, type: 3}
   state: 2
