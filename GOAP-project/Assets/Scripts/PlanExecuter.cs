@@ -16,7 +16,7 @@ public class PlanExecuter : MonoBehaviour
         main = this;
     }
 
-    public IEnumerator Execute(Plan plan, GameObject agent, GameObject target)
+    public IEnumerator Execute(Plan plan, GameObject agent, GameObject target = null)
     {
         currentAgent = agent;
         currentTarget = target;
@@ -45,15 +45,12 @@ public class PlanExecuter : MonoBehaviour
     {
         print("went towards");
         currentAgent.GetComponent<NavMeshAgent>().SetDestination(currentTarget.transform.position);
-        //Implement a Wait until target is nearby function 
-
-        currentAgent.GetComponent<GoapAgent>().memory.states.Add(WorldState.playerNear);
 
     }
 
     void SearchForPlayer()
     {
-        currentAgent.GetComponent<GoapAgent>().proximity.searching = true;
+        currentAgent.GetComponent<GoapAgent>().searching = true;
     }
 
     void CapturePlayerMelee()

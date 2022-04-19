@@ -25,19 +25,19 @@ public class Testing : MonoBehaviour
     void Awake()
     {
         //RunTest();
-        foreach(WorldState memory in testWorkingMemory)
-        {
-            agent.AddMemory(memory);
-        }
+        //foreach(WorldState memory in testWorkingMemory)
+        //{
+        //    agent.memory.states.Add(memory);
+        //}
     }
 
     public void RunTest()
     {
-        agent.memory.states.AddRange(testWorkingMemory);
+        //agent.memory.states.AddRange(testWorkingMemory);
         Goal goal = new Goal(goalState);
         Planner planner = FindObjectOfType<GoapAgent>().planner;
         Plan plan = FindObjectOfType<GoapAgent>().ObtainNewPlan(goal);
-        FindObjectOfType<GoapAgent>().ExecutePlan(plan, null);
+        FindObjectOfType<GoapAgent>().ExecutePlan(plan);
 
         debugPlan.AddRange(plan.GetActions());
     }

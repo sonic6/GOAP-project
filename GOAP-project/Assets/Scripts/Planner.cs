@@ -41,7 +41,7 @@ public class Planner
         //Create a row in a graph
         foreach (ScriptableAction action in actionSet)
         {
-            if (action.effectKey == goal.goalState && myAgent.memory.states.Contains(action.preconditionKey))
+            if (action.effectKey == goal.goalState && myAgent.memory.GetMemories().Contains(action.preconditionKey))
             {
                 graphRow.Add(action);
             }

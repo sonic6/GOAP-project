@@ -14,6 +14,7 @@ public class GoapAgent : MonoBehaviour
     [HideInInspector] public Planner planner;
     private NavMeshAgent navAgent;
     [HideInInspector] public PatrolPoint destination;
+    [HideInInspector] public bool searching = false;
 
     [Tooltip("Add a memory for this agent to start with. Other than the noState memory")]
     [SerializeField] WorldState firstMemory;
@@ -30,21 +31,19 @@ public class GoapAgent : MonoBehaviour
     private void Start()
     {
         SetUpAgent();
-        Goal firstGoal = new Goal(WorldState.playerSeen);
-        Plan firstPlan = ObtainNewPlan(firstGoal);
-        ExecutePlan(firstPlan, gameObject);
     }
 
     private void SetUpAgent()
     {
         navAgent = GetComponent<NavMeshAgent>();
         destination = NearestPatrolPoint();
-        memory = new WorkingMemory();
+        memory = new WorkingMemory(this);
         planner = new Planner(this);
         proximity = new ProximitySensor(this);
         navAgent.SetDestination(destination.transform.position);
 
-        AddMemory(firstMemory);
+        //memory.states.Add(firstMemory);
+        memory.AddMemory(firstMemory, new Goal(WorldState.playerSeen));
     }
 
     private PatrolPoint NearestPatrolPoint()
@@ -68,53 +67,53 @@ public class GoapAgent : MonoBehaviour
         return newPlan;
     }
 
-    public void ExecutePlan(Plan plan, GameObject target)
+    public void ExecutePlan(Plan plan, GameObject target = null)
     {
         StartCoroutine(PlanExecuter.main.Execute(plan, gameObject, target));
-    }
-
-
-    public void Animate(AnimationClip clip)
-    {
-        
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag.ToLower() == "hunted")
         {
-            navAgent.SetDestination(transform.position); //Stops teh navmesh agent from going towards the destination from a previous plan
-            memory.states.Add(WorldState.playerSeen);
-            Plan myPlan = ObtainNewPlan(new Goal(WorldState.playerCaptured));
-            ExecutePlan(myPlan, other.gameObject);
-        }
-    }
+            searching = false;
+            proximity.chase = true;
+            proximity.target = other.gameObject;
 
-    
-    public void AddMemory(WorldState newMemory)
-    {
-        memory.states.Add(newMemory);
+            navAgent.SetDestination(other.transform.position);
+            //memory.states.Add(WorldState.playerSeen);
+
+            memory.AddMemory(WorldState.playerSeen, new Goal(WorldState.playerNear));
+            
+            //Plan myPlan = ObtainNewPlan(new Goal(WorldState.playerCaptured));
+            //try { ExecutePlan(myPlan, other.gameObject); } catch { };
+
+            //Debug
+            //foreach(ScriptableAction action in myPlan.GetActions())
+            //{
+            //    print(action.name);
+            //}
+        }
     }
 
     public void DebugMove()
     {
-        if (Vector3.Distance(transform.position, navAgent.destination) < .5f)
+        if (searching && Vector3.Distance(transform.position, navAgent.destination) < .5f)
         {
             navAgent.SetDestination(destination.transform.position);
             destination = destination.GetNextPoint();
         }
-    } 
+    }
 
     private void DebugDisplayMemories()
     {
-        debugDisplayMemories = memory.states;
+        debugDisplayMemories = memory.GetMemories();
     }
 
     private void Update()
     {
+        DebugMove();
         DebugDisplayMemories();
         proximity.IfNearTarget();
     }
-
-
 }

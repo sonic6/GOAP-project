@@ -7,7 +7,8 @@ public class ProximitySensor
 {
     GoapAgent myAgent;
     NavMeshAgent nav;
-    public bool searching = false;
+    public GameObject target;
+    public bool chase = false; //means that the agent is chasing the target
 
     public ProximitySensor(GoapAgent agent)
     {
@@ -17,16 +18,11 @@ public class ProximitySensor
 
     public void IfNearTarget()
     {
-        if (searching && Vector3.Distance(myAgent.transform.position, nav.destination) < .5f)
+        if (chase && Vector3.Distance(myAgent.transform.position, target.transform.position) < .5f)
         {
-            searching = false;
-            myAgent.destination = myAgent.destination.GetNextPoint();
-            nav.SetDestination(myAgent.destination.transform.position);
-
-            //Create new goal and plan and execute
-            Goal newGoal = new Goal(WorldState.playerSeen);
-            Plan newPlan = myAgent.ObtainNewPlan(newGoal);
-            myAgent.ExecutePlan(newPlan, null);
+            Debug.Log("dsdsd");
+            chase = false;
+            myAgent.memory.AddMemory(WorldState.playerNear, new Goal(WorldState.playerCaptured), target);
         }
     }
 }
