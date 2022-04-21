@@ -10,10 +10,17 @@ public class PlanExecuter : MonoBehaviour
     public static PlanExecuter main;
     private GameObject currentAgent; //The agent whose plan will be executed
     private GameObject currentTarget; //The gameobject that is targeted by an action
+    private WaitCondition currentWaitCondition;
+    private bool NextAction = false;
 
     private void Awake()
     {
         main = this;
+    }
+
+    private void Update()
+    {
+        NextAction = ConditionChecker(currentWaitCondition);
     }
 
     public IEnumerator Execute(Plan plan, GameObject agent, GameObject target = null)
@@ -27,10 +34,21 @@ public class PlanExecuter : MonoBehaviour
 
             Invoke(action.name, 0);
             AnimationHandler.OverrideAnimation(agent, action.Clip, action.state);
-            yield return new WaitForSeconds(action.Clip.length);
-            //agent.GetComponent<Animator>().ResetTrigger(action.state.ToString());
+
+            yield return new WaitUntil(() => NextAction == true);
+            currentWaitCondition = new WaitCondition() { myBool = false, state = WorldState.playerSeen };
             AnimationHandler.ResetAnimatorTriggers(agent);
+
         }
+        
+        //Create a new plan with the goal of finding a new player
+        currentAgent.GetComponent<GoapAgent>().ObtainNewPlan(new Goal(WorldState.playerSeen));
+    }
+
+    bool ConditionChecker(WaitCondition cond)
+    {
+        cond.myBool = currentAgent.GetComponent<GoapAgent>().memory.GetMemories().Contains(cond.state);
+        return cond.myBool;
     }
 
     void DisplayPlanConsole(Plan plan)
@@ -43,6 +61,7 @@ public class PlanExecuter : MonoBehaviour
 
     void GoTowards()
     {
+        currentWaitCondition = new WaitCondition() { myBool = false, state = WorldState.playerNear };
         print("went towards");
         currentAgent.GetComponent<NavMeshAgent>().SetDestination(currentTarget.transform.position);
 
@@ -50,11 +69,15 @@ public class PlanExecuter : MonoBehaviour
 
     void SearchForPlayer()
     {
+        currentWaitCondition = new WaitCondition() { myBool = false, state = WorldState.playerSeen };
         currentAgent.GetComponent<GoapAgent>().searching = true;
     }
 
-    void CapturePlayerMelee()
+    void AttackPlayerMelee()
     {
+        currentWaitCondition = new WaitCondition() { myBool = false, state = WorldState.noState };
+        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(WorldState.playerSeen);
+        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(WorldState.playerNear);
         print("attacked player with melee");
     }
 
@@ -63,8 +86,10 @@ public class PlanExecuter : MonoBehaviour
         print("attacked player with projectile");
     }
 
-    void CapturePlayerProjectile()
+    //Defines a condition that the executer should wait to be fullfilled before running the next action
+    private struct WaitCondition
     {
-        print("Captured player using projectile");
+        public bool myBool;
+        public WorldState state;
     }
 }

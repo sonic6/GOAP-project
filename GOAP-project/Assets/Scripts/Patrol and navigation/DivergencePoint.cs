@@ -15,21 +15,6 @@ public class DivergencePoint : PatrolPoint
 
     public override void DrawLine(List<PatrolPoint> patrolPoints, int nextPositionIndex, int skip)
     {
-        //for(int i = 0; i < paths; i++)
-        //{
-        //    Gizmos.color = Color.green; //Sets the color of the gizmo
-        //    //This try catch block is used to ignore the error caused by the mthod trying to draw a line towards a non-existing point (end of the list)
-        //    try
-        //    {
-        //        int next = nextPositionIndex + i + paths;
-        //        Gizmos.DrawLine(transform.position, patrolPoints[nextPositionIndex + i].transform.position);
-
-        //        patrolPoints[nextPositionIndex + i].DrawLine(patrolPoints, next, paths);
-        //    }
-        //    catch { }
-
-
-        //}
 
         try
         {

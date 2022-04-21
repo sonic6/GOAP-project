@@ -18,16 +18,10 @@ public class GoapAgent : MonoBehaviour
 
     [Tooltip("Add a memory for this agent to start with. Other than the noState memory")]
     [SerializeField] WorldState firstMemory;
-
-    //[SerializeField] Animator animator;
+    
     public AnimatorOverrideController overrider;
 
-    //List<AnimationClip> clips;
-
-    //Sensors
-    public ProximitySensor proximity;
     
-
     private void Start()
     {
         SetUpAgent();
@@ -39,10 +33,8 @@ public class GoapAgent : MonoBehaviour
         destination = NearestPatrolPoint();
         memory = new WorkingMemory(this);
         planner = new Planner(this);
-        proximity = new ProximitySensor(this);
         navAgent.SetDestination(destination.transform.position);
-
-        //memory.states.Add(firstMemory);
+        
         memory.AddMemory(firstMemory, new Goal(WorldState.playerSeen));
     }
 
@@ -72,30 +64,6 @@ public class GoapAgent : MonoBehaviour
         StartCoroutine(PlanExecuter.main.Execute(plan, gameObject, target));
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag.ToLower() == "hunted")
-        {
-            searching = false;
-            proximity.chase = true;
-            proximity.target = other.gameObject;
-
-            navAgent.SetDestination(other.transform.position);
-            //memory.states.Add(WorldState.playerSeen);
-
-            memory.AddMemory(WorldState.playerSeen, new Goal(WorldState.playerNear));
-            
-            //Plan myPlan = ObtainNewPlan(new Goal(WorldState.playerCaptured));
-            //try { ExecutePlan(myPlan, other.gameObject); } catch { };
-
-            //Debug
-            //foreach(ScriptableAction action in myPlan.GetActions())
-            //{
-            //    print(action.name);
-            //}
-        }
-    }
-
     public void DebugMove()
     {
         if (searching && Vector3.Distance(transform.position, navAgent.destination) < .5f)
@@ -114,6 +82,5 @@ public class GoapAgent : MonoBehaviour
     {
         DebugMove();
         DebugDisplayMemories();
-        proximity.IfNearTarget();
     }
 }

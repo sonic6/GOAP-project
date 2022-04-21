@@ -36,4 +36,9 @@ public class WorkingMemory
     {
         return states;
     }
+
+    public void RemoveMemory(WorldState memory)
+    {
+        states.Remove(memory);
+    }
 }

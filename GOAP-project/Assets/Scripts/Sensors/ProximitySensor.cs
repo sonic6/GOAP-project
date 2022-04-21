@@ -3,26 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ProximitySensor
+public class ProximitySensor : MonoBehaviour
 {
     GoapAgent myAgent;
-    NavMeshAgent nav;
-    public GameObject target;
-    public bool chase = false; //means that the agent is chasing the target
+    //public bool chase = false; //means that the agent is chasing the target
 
-    public ProximitySensor(GoapAgent agent)
+    private void Awake()
     {
-        myAgent = agent;
-        nav = myAgent.GetComponent<NavMeshAgent>();
+        myAgent = GetComponentInParent<GoapAgent>();
     }
 
-    public void IfNearTarget()
+    private void OnTriggerEnter(Collider other)
     {
-        if (chase && Vector3.Distance(myAgent.transform.position, target.transform.position) < .5f)
+        if (other.gameObject.tag.ToLower() == "hunted")
         {
             Debug.Log("dsdsd");
-            chase = false;
-            myAgent.memory.AddMemory(WorldState.playerNear, new Goal(WorldState.playerCaptured), target);
+            myAgent.memory.AddMemory(WorldState.playerNear, new Goal(WorldState.playerCaptured), other.gameObject);
         }
     }
 }
