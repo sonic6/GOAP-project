@@ -1,3 +1,4 @@
+using UnityEngine; 
 
 public enum WorldState
 {
@@ -7,4 +8,10 @@ public enum WorldState
     noState,
     meleeAvailable, 
     playerNear
+}
+
+public struct WorldFact
+{
+    public GameObject target;
+    public WorldState state;
 }

@@ -34,8 +34,9 @@ public class GoapAgent : MonoBehaviour
         memory = new WorkingMemory(this);
         planner = new Planner(this);
         navAgent.SetDestination(destination.transform.position);
-        
-        memory.AddMemory(firstMemory, new Goal(WorldState.playerSeen));
+
+        WorldFact firstFact = new WorldFact() { state = firstMemory };
+        memory.AddMemory(firstFact, new Goal(WorldState.playerSeen));
     }
 
     private PatrolPoint NearestPatrolPoint()
@@ -75,7 +76,14 @@ public class GoapAgent : MonoBehaviour
 
     private void DebugDisplayMemories()
     {
-        debugDisplayMemories = memory.GetMemories();
+        //debugDisplayMemories = memory.GetMemories();
+        List<WorldState> debugStates = new List<WorldState>();
+
+        foreach(WorldFact fact in memory.GetMemories())
+        {
+            debugStates.Add(fact.state);
+        }
+        debugDisplayMemories = debugStates;
     }
 
     private void Update()
@@ -84,3 +92,4 @@ public class GoapAgent : MonoBehaviour
         DebugDisplayMemories();
     }
 }
+

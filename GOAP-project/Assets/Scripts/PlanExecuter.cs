@@ -31,12 +31,13 @@ public class PlanExecuter : MonoBehaviour
         foreach(ScriptableAction action in plan.GetActions())
         {
             DisplayPlanConsole(plan);
-
+            
+            currentWaitCondition = new WaitCondition() { myBool = false, fact = new WorldFact { state = action.effectKey } };
             Invoke(action.name, 0);
             AnimationHandler.OverrideAnimation(agent, action.Clip, action.state);
 
             yield return new WaitUntil(() => NextAction == true);
-            currentWaitCondition = new WaitCondition() { myBool = false, state = WorldState.playerSeen };
+            currentWaitCondition = new WaitCondition() { myBool = false };
             AnimationHandler.ResetAnimatorTriggers(agent);
 
         }
@@ -47,8 +48,12 @@ public class PlanExecuter : MonoBehaviour
 
     bool ConditionChecker(WaitCondition cond)
     {
-        cond.myBool = currentAgent.GetComponent<GoapAgent>().memory.GetMemories().Contains(cond.state);
-        return cond.myBool;
+        if (currentAgent)
+        {
+            cond.myBool = currentAgent.GetComponent<GoapAgent>().memory.ContainsMatchingMemory(cond.fact);
+            return cond.myBool;
+        }
+        return false;
     }
 
     void DisplayPlanConsole(Plan plan)
@@ -61,7 +66,6 @@ public class PlanExecuter : MonoBehaviour
 
     void GoTowards()
     {
-        currentWaitCondition = new WaitCondition() { myBool = false, state = WorldState.playerNear };
         print("went towards");
         currentAgent.GetComponent<NavMeshAgent>().SetDestination(currentTarget.transform.position);
 
@@ -69,15 +73,14 @@ public class PlanExecuter : MonoBehaviour
 
     void SearchForPlayer()
     {
-        currentWaitCondition = new WaitCondition() { myBool = false, state = WorldState.playerSeen };
         currentAgent.GetComponent<GoapAgent>().searching = true;
     }
 
     void AttackPlayerMelee()
     {
-        currentWaitCondition = new WaitCondition() { myBool = false, state = WorldState.noState };
-        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(WorldState.playerSeen);
-        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(WorldState.playerNear);
+        currentWaitCondition = new WaitCondition() { myBool = false, fact = new WorldFact { state = WorldState.noState } };
+        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new WorldFact { state = WorldState.playerSeen, target = currentTarget });
+        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new WorldFact { state = WorldState.playerNear, target = currentTarget });
         print("attacked player with melee");
     }
 
@@ -90,6 +93,6 @@ public class PlanExecuter : MonoBehaviour
     private struct WaitCondition
     {
         public bool myBool;
-        public WorldState state;
+        public WorldFact fact;
     }
 }

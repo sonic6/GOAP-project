@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class WorkingMemory
 {
-    private List<WorldState> states = new List<WorldState>();
+    private List<WorldFact> states = new List<WorldFact>();
     private GoapAgent myAgent;
 
     public WorkingMemory(GoapAgent agent)
     {
-        states.Add(WorldState.noState);
+        states.Add(new WorldFact { state = WorldState.noState });
         myAgent = agent;
     }
 
@@ -18,27 +18,44 @@ public class WorkingMemory
     /// </summary>
     /// <param name="memory"></param>
     /// <param name="goal"></param>
-    /// <param name="target"></param>
-    public void AddMemory(WorldState memory, Goal goal, GameObject target = null)
+    public void AddMemory(WorldFact memory, Goal goal)
     {
         states.Add(memory);
 
         Plan newPlan = myAgent.ObtainNewPlan(goal);
-        myAgent.ExecutePlan(newPlan, target);
-        //try {
-
-        //}
-        //catch { }
+        myAgent.ExecutePlan(newPlan, memory.target);
 
     }
 
-    public List<WorldState> GetMemories()
+    public List<WorldFact> GetMemories()
     {
         return states;
     }
 
-    public void RemoveMemory(WorldState memory)
+    //Remove the memory that matches with the provided memory
+    public void RemoveMemory(WorldFact memory)
     {
-        states.Remove(memory);
+        foreach(WorldFact fact in states)
+        {
+            if (fact.state == memory.state && fact.target == memory.target)
+            {
+                states.Remove(fact);
+                Debug.Log("removed memory ");
+                break;
+            }
+        }
+    }
+
+    //Checks if there a given worldfact matches a worldfact in memory
+    public bool ContainsMatchingMemory(WorldFact worldFact)
+    {
+        foreach(WorldFact fact in states)
+        {
+            if(fact.state == worldFact.state/* && fact.target == worldFact.target*/)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

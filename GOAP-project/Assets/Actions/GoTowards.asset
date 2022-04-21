@@ -16,4 +16,4 @@ MonoBehaviour:
   effectKey: 5
   preconditionKey: 2
   Clip: {fileID: 0}
-  state: 0
+  state: 1

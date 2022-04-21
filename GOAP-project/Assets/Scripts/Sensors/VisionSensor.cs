@@ -19,7 +19,8 @@ public class VisionSensor : MonoBehaviour
         if (other.gameObject.tag.ToLower() == "hunted")
         {
             navAgent.SetDestination(other.transform.position);
-            agent.memory.AddMemory(WorldState.playerSeen, new Goal(WorldState.playerNear));
+            WorldFact newFact = new WorldFact() { state = WorldState.playerSeen, target = other.gameObject };
+            agent.memory.AddMemory(newFact, new Goal(WorldState.playerNear));
         }
     }
 }

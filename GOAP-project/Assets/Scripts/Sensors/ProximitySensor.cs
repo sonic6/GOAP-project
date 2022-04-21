@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class ProximitySensor : MonoBehaviour
 {
     GoapAgent myAgent;
-    //public bool chase = false; //means that the agent is chasing the target
 
     private void Awake()
     {
@@ -17,8 +16,8 @@ public class ProximitySensor : MonoBehaviour
     {
         if (other.gameObject.tag.ToLower() == "hunted")
         {
-            Debug.Log("dsdsd");
-            myAgent.memory.AddMemory(WorldState.playerNear, new Goal(WorldState.playerCaptured), other.gameObject);
+            WorldFact newFact = new WorldFact() { state = WorldState.playerNear, target = other.gameObject };
+            myAgent.memory.AddMemory(newFact, new Goal(WorldState.playerCaptured));
         }
     }
 }
