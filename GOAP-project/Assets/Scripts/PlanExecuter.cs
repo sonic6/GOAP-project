@@ -79,8 +79,8 @@ public class PlanExecuter : MonoBehaviour
     void AttackPlayerMelee()
     {
         currentWaitCondition = new WaitCondition() { myBool = false, fact = new WorldFact { state = WorldState.noState } };
-        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new WorldFact { state = WorldState.playerSeen, target = currentTarget });
-        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new WorldFact { state = WorldState.playerNear, target = currentTarget });
+        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new WorldFact { state = WorldState.playerSeen, target = currentTarget }, new Goal(WorldState.playerSeen));
+        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new WorldFact { state = WorldState.playerNear, target = currentTarget }, new Goal(WorldState.playerSeen));
         print("attacked player with melee");
     }
 

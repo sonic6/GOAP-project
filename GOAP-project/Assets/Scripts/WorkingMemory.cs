@@ -33,13 +33,16 @@ public class WorkingMemory
     }
 
     //Remove the memory that matches with the provided memory
-    public void RemoveMemory(WorldFact memory)
+    public void RemoveMemory(WorldFact memory, Goal goal)
     {
         foreach(WorldFact fact in states)
         {
             if (fact.state == memory.state && fact.target == memory.target)
             {
                 states.Remove(fact);
+                Plan newPlan = myAgent.ObtainNewPlan(goal);
+                myAgent.ExecutePlan(newPlan, memory.target);
+
                 Debug.Log("removed memory ");
                 break;
             }
