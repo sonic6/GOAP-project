@@ -10,7 +10,7 @@ public enum WorldState
     playerNear
 }
 
-public struct WorldFact
+public struct Memory
 {
     public GameObject target;
     public WorldState state;

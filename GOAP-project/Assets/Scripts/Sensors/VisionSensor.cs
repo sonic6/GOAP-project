@@ -12,6 +12,7 @@ public class VisionSensor : MonoBehaviour
 
     GameObject FovTarget;
     RaycastHit hit;
+    RaycastHit reflect;
 
     private void Awake()
     {
@@ -26,7 +27,7 @@ public class VisionSensor : MonoBehaviour
         {
             FovTarget = other.gameObject;
             
-            WorldFact newFact = new WorldFact() { state = WorldState.playerSeen, target = other.gameObject };
+            Memory newFact = new Memory() { state = WorldState.playerSeen, target = other.gameObject };
             agent.memory.AddMemory(newFact, new Goal(WorldState.playerNear));
         }
     }
@@ -37,7 +38,7 @@ public class VisionSensor : MonoBehaviour
         {
             FovTarget = null;
 
-            WorldFact oldFact = new WorldFact() { state = WorldState.playerSeen, target = other.gameObject };
+            Memory oldFact = new Memory() { state = WorldState.playerSeen, target = other.gameObject };
             agent.memory.RemoveMemory(oldFact, new Goal(WorldState.playerSeen));
         }
     }
@@ -46,11 +47,33 @@ public class VisionSensor : MonoBehaviour
     {
         
         Debug.DrawLine(eyePosition.position, target.position, Color.red);
-        if (Physics.Linecast(eyePosition.position, target.position, out hit) && hit.collider.gameObject.tag == "hunted")
+        Physics.Linecast(eyePosition.position, target.position, out hit);
+        if (hit.collider.gameObject.tag == "hunted")
         {
             print("player in fov");
             navAgent.SetDestination(target.transform.position);
         }
+    }
+
+    //Reflects the line of sight back towards this player to check if line is still viable 
+    private void LineOfSightReflection()
+    {
+        Debug.DrawLine(FovTarget.transform.position, eyePosition.position, Color.yellow);
+        Physics.Linecast(FovTarget.transform.position, eyePosition.position, out reflect);
+
+        //print(reflect.collider);
+        try
+        {
+            if (reflect.collider.gameObject != agent.gameObject)
+            {
+                Memory oldFact = new Memory() { state = WorldState.playerSeen, target = FovTarget.gameObject };
+                agent.memory.RemoveMemory(oldFact, new Goal(WorldState.playerSeen));
+
+                FovTarget = null;
+            }
+        }
+        catch { }
+        
     }
 
     private void FixedUpdate()
@@ -58,7 +81,9 @@ public class VisionSensor : MonoBehaviour
         if(FovTarget != null)
         {
             LineOfSight(FovTarget.transform);
+            LineOfSightReflection();
         }
+
     }
 
 }

@@ -41,7 +41,7 @@ public class Planner
         //Create a row in a graph
         foreach (ScriptableAction action in actionSet)
         {
-            WorldFact fact = new WorldFact() { state = action.preconditionKey };
+            Memory fact = new Memory() { state = action.preconditionKey };
 
             if (action.effectKey == goal.goalState && myAgent.memory.ContainsMatchingMemory(fact))
             {

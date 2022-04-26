@@ -32,7 +32,7 @@ public class PlanExecuter : MonoBehaviour
         {
             DisplayPlanConsole(plan);
             
-            currentWaitCondition = new WaitCondition() { myBool = false, fact = new WorldFact { state = action.effectKey } };
+            currentWaitCondition = new WaitCondition() { myBool = false, fact = new Memory { state = action.effectKey } };
             Invoke(action.name, 0);
             AnimationHandler.OverrideAnimation(agent, action.Clip, action.state);
 
@@ -78,9 +78,9 @@ public class PlanExecuter : MonoBehaviour
 
     void AttackPlayerMelee()
     {
-        currentWaitCondition = new WaitCondition() { myBool = false, fact = new WorldFact { state = WorldState.noState } };
-        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new WorldFact { state = WorldState.playerSeen, target = currentTarget }, new Goal(WorldState.playerSeen));
-        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new WorldFact { state = WorldState.playerNear, target = currentTarget }, new Goal(WorldState.playerSeen));
+        currentWaitCondition = new WaitCondition() { myBool = false, fact = new Memory { state = WorldState.noState } };
+        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new Memory { state = WorldState.playerSeen, target = currentTarget }, new Goal(WorldState.playerSeen));
+        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new Memory { state = WorldState.playerNear, target = currentTarget }, new Goal(WorldState.playerSeen));
         print("attacked player with melee");
     }
 
@@ -93,6 +93,6 @@ public class PlanExecuter : MonoBehaviour
     private struct WaitCondition
     {
         public bool myBool;
-        public WorldFact fact;
+        public Memory fact;
     }
 }

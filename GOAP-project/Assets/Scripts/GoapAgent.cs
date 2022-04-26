@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.Animations;
 using UnityEngine.AI;
 
 public class GoapAgent : MonoBehaviour
@@ -35,7 +34,7 @@ public class GoapAgent : MonoBehaviour
         planner = new Planner(this);
         navAgent.SetDestination(destination.transform.position);
 
-        WorldFact firstFact = new WorldFact() { state = firstMemory };
+        Memory firstFact = new Memory() { state = firstMemory };
         memory.AddMemory(firstFact, new Goal(WorldState.playerSeen));
     }
 
@@ -79,7 +78,7 @@ public class GoapAgent : MonoBehaviour
         //debugDisplayMemories = memory.GetMemories();
         List<WorldState> debugStates = new List<WorldState>();
 
-        foreach(WorldFact fact in memory.GetMemories())
+        foreach(Memory fact in memory.GetMemories())
         {
             debugStates.Add(fact.state);
         }

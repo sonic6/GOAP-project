@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class WorkingMemory
 {
-    private List<WorldFact> states = new List<WorldFact>();
+    private List<Memory> states = new List<Memory>();
     private GoapAgent myAgent;
 
     public WorkingMemory(GoapAgent agent)
     {
-        states.Add(new WorldFact { state = WorldState.noState });
+        states.Add(new Memory { state = WorldState.noState });
         myAgent = agent;
     }
 
@@ -18,7 +18,7 @@ public class WorkingMemory
     /// </summary>
     /// <param name="memory"></param>
     /// <param name="goal"></param>
-    public void AddMemory(WorldFact memory, Goal goal)
+    public void AddMemory(Memory memory, Goal goal)
     {
         states.Add(memory);
 
@@ -27,15 +27,15 @@ public class WorkingMemory
 
     }
 
-    public List<WorldFact> GetMemories()
+    public List<Memory> GetMemories()
     {
         return states;
     }
 
     //Remove the memory that matches with the provided memory
-    public void RemoveMemory(WorldFact memory, Goal goal)
+    public void RemoveMemory(Memory memory, Goal goal)
     {
-        foreach(WorldFact fact in states)
+        foreach(Memory fact in states)
         {
             if (fact.state == memory.state && fact.target == memory.target)
             {
@@ -50,9 +50,9 @@ public class WorkingMemory
     }
 
     //Checks if there a given worldfact matches a worldfact in memory
-    public bool ContainsMatchingMemory(WorldFact worldFact)
+    public bool ContainsMatchingMemory(Memory worldFact)
     {
-        foreach(WorldFact fact in states)
+        foreach(Memory fact in states)
         {
             if(fact.state == worldFact.state/* && fact.target == worldFact.target*/)
             {

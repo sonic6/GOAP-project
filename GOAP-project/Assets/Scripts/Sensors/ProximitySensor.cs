@@ -16,7 +16,8 @@ public class ProximitySensor : MonoBehaviour
     {
         if (other.gameObject.tag.ToLower() == "hunted")
         {
-            WorldFact newFact = new WorldFact() { state = WorldState.playerNear, target = other.gameObject };
+            print("close to player ");
+            Memory newFact = new Memory() { state = WorldState.playerNear, target = other.gameObject };
             myAgent.memory.AddMemory(newFact, new Goal(WorldState.playerCaptured));
         }
     }
