@@ -14,7 +14,7 @@ public class ProximitySensor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag.ToLower() == "hunted")
+        if (other.gameObject.tag.ToLower() == myAgent.enemyTag)
         {
             print("close to player ");
             Memory newFact = new Memory() { state = WorldState.playerNear, target = other.gameObject };

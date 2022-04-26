@@ -141,6 +141,7 @@ MonoBehaviour:
   agentActionSet: {fileID: 11400000, guid: bce7e2f827099e944a37e2bcbb4f61df, type: 2}
   destination: {fileID: 0}
   searching: 0
+  enemyTag: hunted
   firstMemory: 4
   overrider: {fileID: 22100000, guid: 178469114bed98e41a2905fdc776a8ae, type: 2}
 --- !u!195 &5202746465088200863

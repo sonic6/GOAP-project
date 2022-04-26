@@ -13,7 +13,11 @@ public class GoapAgent : MonoBehaviour
     [HideInInspector] public Planner planner;
     private NavMeshAgent navAgent;
     [HideInInspector] public PatrolPoint destination;
-    [HideInInspector] public bool searching = false;
+    
+    [HideInInspector] public bool searching = false; //Debugmove related
+
+    [Tooltip("What is the tag of this charachter's enemy type?")]
+    public string enemyTag;
 
     [Tooltip("Add a memory for this agent to start with. Other than the noState memory")]
     [SerializeField] WorldState firstMemory;
