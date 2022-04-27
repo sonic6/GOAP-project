@@ -20,7 +20,9 @@ public class WorkingMemory
     /// <param name="goal"></param>
     public void AddMemory(Memory memory, Goal goal)
     {
-        states.Add(memory);
+        //Don't add the memory if it already exists 
+        if(ContainsMatchingMemory(memory) == false)
+            states.Add(memory);
 
         Plan newPlan = myAgent.ObtainNewPlan(goal);
         myAgent.ExecutePlan(newPlan, memory.target);
@@ -54,7 +56,7 @@ public class WorkingMemory
     {
         foreach(Memory fact in states)
         {
-            if(fact.state == worldFact.state/* && fact.target == worldFact.target*/)
+            if(fact.state == worldFact.state)
             {
                 return true;
             }

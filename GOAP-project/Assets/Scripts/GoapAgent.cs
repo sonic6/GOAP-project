@@ -91,7 +91,7 @@ public class GoapAgent : MonoBehaviour
 
     private void Update()
     {
-        DebugMove();
+        //DebugMove();
         DebugDisplayMemories();
     }
 }
