@@ -11,10 +11,8 @@ public class VisionSensor : MonoBehaviour
     [SerializeField] Transform eyePosition;
 
     List<GameObject> FovTarget = new List<GameObject>();
-    List<GameObject> Removables = new List<GameObject>(); //Needs to be used to avoid bugs that happen when changing the FovTarget list from inside a foreach loop 
 
     RaycastHit hit;
-    RaycastHit reflect;
 
     private void Awake()
     {
@@ -28,11 +26,8 @@ public class VisionSensor : MonoBehaviour
         if (other.gameObject.tag.ToLower() == agent.enemyTag)
         {
             FovTarget.Add(other.gameObject);
-
-            LineOfSight();
+            StartCoroutine(StareAtTarget(other.gameObject));
             
-            Memory newFact = new Memory() { state = WorldState.playerSeen, target = other.gameObject };
-            agent.memory.AddMemory(newFact, new Goal(WorldState.playerNear));
         }
     }
 
@@ -47,74 +42,35 @@ public class VisionSensor : MonoBehaviour
         }
     }
 
-    //casts a line ray from this agent towards its target to check if there are no obstacles between
-    private void LineOfSight()
+    //Casts a line of sight towards a target to make sure it is still seen 
+    IEnumerator StareAtTarget(GameObject target)
     {
-        foreach (GameObject target in FovTarget)
+        Physics.Linecast(eyePosition.position, target.transform.position, out hit);
+        Debug.DrawLine(eyePosition.position, target.transform.position);
+
+        //If the target is in the line of sight
+        if(hit.collider.gameObject == target)
         {
-            Debug.DrawLine(eyePosition.position, target.transform.position, Color.red);
+            Memory newFact = new Memory() { state = WorldState.playerSeen, target = target.gameObject };
+            agent.memory.AddMemory(newFact, new Goal(WorldState.playerNear));
+        }
+
+        //Keep checking that the target is in the line of sight
+        while(FovTarget.Contains(target) && hit.collider.gameObject == target)
+        {
             Physics.Linecast(eyePosition.position, target.transform.position, out hit);
-            if (hit.collider.gameObject.tag == agent.enemyTag)
-            {
-                print("player in fov");
-                navAgent.SetDestination(NearestFovTarget().position);
-            }
-        }
-        
-    }
+            Debug.DrawLine(eyePosition.position, target.transform.position);
 
-    //Reflects the line of sight back towards this player to check if line is still viable 
-    private void LineOfSightReflection()
-    {
-        foreach(GameObject target in FovTarget)
-        {
-            Debug.DrawLine(target.transform.position, eyePosition.position, Color.yellow);
-            Physics.Linecast(target.transform.position, eyePosition.position, out reflect);
-
-            try
-            {
-                if (reflect.collider.gameObject != agent.gameObject)
-                {
-                    Memory oldFact = new Memory() { state = WorldState.playerSeen, target = target.gameObject };
-                    agent.memory.RemoveMemory(oldFact, new Goal(WorldState.playerSeen));
-
-                    Removables.Add(target);
-                }
-            }
-            catch { }
+            yield return new WaitForSeconds(1f);
         }
 
-        RemoveRemovables();
-        Removables.Clear();
-    }
+        #region remove target from memory and FovList
+        Memory oldFact = new Memory() { state = WorldState.playerSeen, target = target.gameObject };
+        agent.memory.RemoveMemory(oldFact, new Goal(WorldState.playerSeen));
 
-    private Transform NearestFovTarget()
-    {
-        Transform nearest = FovTarget[0].transform;
+        FovTarget.Remove(target);
+        #endregion
 
-        foreach (GameObject target in FovTarget)
-        {
-            if(Vector3.Distance(transform.position, target.transform.position) < Vector3.Distance(transform.position, nearest.position))
-            {
-                nearest = target.transform;
-            }
-        }
-
-        return nearest;
-    }
-
-    private void RemoveRemovables()
-    {
-        foreach(GameObject removable in Removables)
-        {
-            FovTarget.Remove(removable);
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        //LineOfSight();
-        //LineOfSightReflection();
 
     }
 
