@@ -1,5 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!136 &7311009302174866112
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085512588033052826}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.81
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.88, z: 0}
 --- !u!114 &1923390259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14,12 +28,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debugDisplayMemories: 
   DebugDisplayPlan: []
-  agentActionSet: {fileID: 0}
+  agentActionSet: {fileID: 11400000, guid: 6787f1f88b974f84ab4ab6f50896ae66, type: 2}
   destination: {fileID: 0}
-  searching: 0
   enemyTag: hunter
   firstMemory: 3
-  overrider: {fileID: 0}
+  overrider: {fileID: 22100000, guid: cec6a769676357641954292bc6369f9f, type: 2}
 --- !u!195 &1923390260
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -42,20 +55,18 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!136 &7311009302174866112
-CapsuleCollider:
+--- !u!114 &8269295883170639368
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2085512588033052826}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1.81
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.88, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ea0e80b365e20049aee36d3eec6c86d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!64 &659592695370952295
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -70,7 +81,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -6053382344825935911, guid: f426ce1dcfba687438d518264823f48e, type: 3}
---- !u!114 &7805579026951523765
+--- !u!114 &2698517272977918446
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -79,7 +90,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3696510913321283851}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 913ce654c00a65b4489420984e5e9d8c, type: 3}
+  m_Script: {fileID: 11500000, guid: ce03790a992fdaa498800000446c5e88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   eyePosition: {fileID: 5632173777807650464}
@@ -97,7 +108,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -6053382344825935911, guid: f426ce1dcfba687438d518264823f48e, type: 3}
---- !u!114 &6558488968606896281
+--- !u!114 &2522566713857874121
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,7 +117,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8193602014826763471}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 913ce654c00a65b4489420984e5e9d8c, type: 3}
+  m_Script: {fileID: 11500000, guid: ce03790a992fdaa498800000446c5e88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   eyePosition: {fileID: 5632173777807650464}
@@ -512,6 +523,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 4176699ad274f17469736fc7ff421667, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 7eb7bf8ea1352054ba96d26db72775c7, type: 2}
     - target: {fileID: 6038414690906536434, guid: 4176699ad274f17469736fc7ff421667, type: 3}
       propertyPath: m_Layer
       value: 2

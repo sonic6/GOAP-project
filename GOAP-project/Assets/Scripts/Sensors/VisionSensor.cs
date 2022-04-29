@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class VisionSensor : MonoBehaviour
+public abstract class VisionSensor : MonoBehaviour
 {
-    NavMeshAgent navAgent;
-    GoapAgent agent;
+    protected NavMeshAgent navAgent;
+    protected GoapAgent agent;
 
-    [SerializeField] Transform eyePosition;
+    [SerializeField] protected Transform eyePosition;
 
-    List<GameObject> FovTarget = new List<GameObject>();
+    protected List<GameObject> FovTarget = new List<GameObject>();
 
-    RaycastHit hit;
+    protected RaycastHit hit;
 
     private void Awake()
     {
@@ -37,41 +37,12 @@ public class VisionSensor : MonoBehaviour
         {
             FovTarget.Remove(other.gameObject);
 
-            Memory oldFact = new Memory() { state = WorldState.playerSeen, target = other.gameObject };
-            agent.memory.RemoveMemory(oldFact, new Goal(WorldState.playerSeen));
+            Memory oldFact = new Memory() { state = WorldState.targetSeen, target = other.gameObject };
+            agent.memory.RemoveMemory(oldFact, new Goal(WorldState.targetSeen));
         }
     }
 
     //Casts a line of sight towards a target to make sure it is still seen 
-    IEnumerator StareAtTarget(GameObject target)
-    {
-        Physics.Linecast(eyePosition.position, target.transform.position, out hit);
-        Debug.DrawLine(eyePosition.position, target.transform.position);
-
-        //If the target is in the line of sight
-        if(hit.collider.gameObject == target)
-        {
-            Memory newFact = new Memory() { state = WorldState.playerSeen, target = target.gameObject };
-            agent.memory.AddMemory(newFact, new Goal(WorldState.playerNear));
-        }
-
-        //Keep checking that the target is in the line of sight
-        while(FovTarget.Contains(target) && hit.collider.gameObject == target)
-        {
-            Physics.Linecast(eyePosition.position, target.transform.position, out hit);
-            Debug.DrawLine(eyePosition.position, target.transform.position);
-
-            yield return new WaitForSeconds(1f);
-        }
-
-        #region remove target from memory and FovList
-        Memory oldFact = new Memory() { state = WorldState.playerSeen, target = target.gameObject };
-        agent.memory.RemoveMemory(oldFact, new Goal(WorldState.playerSeen));
-
-        FovTarget.Remove(target);
-        #endregion
-
-
-    }
+    public abstract IEnumerator StareAtTarget(GameObject target);
 
 }

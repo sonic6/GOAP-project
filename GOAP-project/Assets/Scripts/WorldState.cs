@@ -4,10 +4,12 @@ public enum WorldState
 {
     playerCaptured,
     projectileAvailable,
-    playerSeen,
+    targetSeen,
     noState,
     meleeAvailable, 
-    playerNear
+    targetNear,
+    IsHiding, 
+    FoundKey
 }
 
 public struct Memory

@@ -7,21 +7,8 @@ using UnityEngine.AI;
 
 public class PlanExecuter : MonoBehaviour
 {
-    public static PlanExecuter main;
     private GameObject currentAgent; //The agent whose plan will be executed
     private GameObject currentTarget; //The gameobject that is targeted by an action
-    //private WaitCondition currentWaitCondition;
-    //private bool NextAction = false;
-
-    private void Awake()
-    {
-        main = this;
-    }
-
-    //private void Update()
-    //{
-    //    NextAction = ConditionChecker(currentWaitCondition);
-    //}
 
     public IEnumerator Execute(Plan plan, GameObject agent, GameObject target = null)
     {
@@ -31,36 +18,23 @@ public class PlanExecuter : MonoBehaviour
         foreach(ScriptableAction action in plan.GetActions())
         {
             DisplayPlanConsole(plan);
-
-            //currentWaitCondition = new WaitCondition() { myBool = false, fact = new Memory { state = action.effectKey } };
+            
             Invoke(action.name, 0);
             AnimationHandler.OverrideAnimation(agent, action.Clip, action.state);
-
-            //yield return new WaitUntil(() => NextAction == true);
+            
             yield return new WaitUntil(() => ConditionChecker(action) == true);
-            //currentWaitCondition = new WaitCondition() { myBool = false };
             AnimationHandler.ResetAnimatorTriggers(agent);
 
         }
-        
-        //Create a new plan with the goal of finding a new player
-        currentAgent.GetComponent<GoapAgent>().ObtainNewPlan(new Goal(WorldState.playerSeen));
-    }
 
-    //Returns true if an agent has fullfilled an action's effect
-    //bool ConditionChecker(WaitCondition cond)
-    //{
-    //    if (currentAgent)
-    //    {
-    //        cond.myBool = currentAgent.GetComponent<GoapAgent>().memory.ContainsMatchingMemory(cond.fact);
-    //        return cond.myBool;
-    //    }
-    //    return false;
-    //}
+        //Create a new plan with the goal of finding a new player
+        //currentAgent.GetComponent<GoapAgent>().ObtainNewPlan(new Goal(WorldState.targetSeen));
+    }
 
     //Returns true if an agent has fullfilled an action's effect
     bool ConditionChecker(ScriptableAction action)
     {
+        print(currentAgent.name + " is checking condition " + action.effectKey + " about target " + currentTarget);
         Memory checkMemory = new Memory() { state = action.effectKey, target = currentTarget };
         return currentAgent.GetComponent<GoapAgent>().memory.ContainsMatchingMemory(checkMemory);
     }
@@ -83,15 +57,13 @@ public class PlanExecuter : MonoBehaviour
     void Patrol()
     {
         StartCoroutine(PatrolUntil());
-        currentAgent.GetComponent<GoapAgent>().searching = true;
-        
     }
 
     void AttackPlayerMelee()
     {
         //currentWaitCondition = new WaitCondition() { myBool = false, fact = new Memory { state = WorldState.noState } };
-        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new Memory { state = WorldState.playerSeen, target = currentTarget }, new Goal(WorldState.playerSeen));
-        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new Memory { state = WorldState.playerNear, target = currentTarget }, new Goal(WorldState.playerSeen));
+        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new Memory { state = WorldState.targetSeen, target = currentTarget }, new Goal(WorldState.targetSeen));
+        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new Memory { state = WorldState.targetNear, target = currentTarget }, new Goal(WorldState.targetSeen));
         print("attacked player with melee");
     }
 
@@ -99,13 +71,6 @@ public class PlanExecuter : MonoBehaviour
     {
         print("attacked player with projectile");
     }
-
-    //Defines a condition that the executer should wait to be fullfilled before running the next action
-    //private struct WaitCondition
-    //{
-    //    public bool myBool;
-    //    public Memory fact;
-    //}
 
     IEnumerator PatrolUntil()
     {
@@ -117,6 +82,23 @@ public class PlanExecuter : MonoBehaviour
         navAgent.SetDestination(currentAgent.GetComponent<GoapAgent>().destination.transform.position);
 
         Memory newFact = new Memory() { state = WorldState.noState };
-        currentAgent.GetComponent<GoapAgent>().memory.AddMemory(newFact, new Goal(WorldState.playerSeen));
+        currentAgent.GetComponent<GoapAgent>().memory.AddMemory(newFact, new Goal(WorldState.targetSeen));
+    }
+
+    void Hide()
+    {
+        StartCoroutine(HideUntil());
+    }
+
+    IEnumerator HideUntil()
+    {
+        Room room = currentAgent.GetComponent<HidingManager>().currentRoom;
+        yield return new WaitUntil(() => (room.huntersInRoom.Count == 0));
+
+        Memory oldMemory = new Memory()
+        {
+            state = WorldState.IsHiding
+        };
+        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(oldMemory, new Goal(WorldState.FoundKey));
     }
 }

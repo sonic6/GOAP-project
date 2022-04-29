@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class GoapAgent : MonoBehaviour
 {
+    PlanExecuter executer;
+
     public List<WorldState> debugDisplayMemories = new List<WorldState>(); //Debugging
     public List<ScriptableAction> DebugDisplayPlan = new List<ScriptableAction>(); //Debugging
 
@@ -14,7 +16,6 @@ public class GoapAgent : MonoBehaviour
     private NavMeshAgent navAgent;
     [HideInInspector] public PatrolPoint destination;
     
-    [HideInInspector] public bool searching = false; //Debugmove related
 
     [Tooltip("What is the tag of this charachter's enemy type?")]
     public string enemyTag;
@@ -32,6 +33,7 @@ public class GoapAgent : MonoBehaviour
 
     private void SetUpAgent()
     {
+        executer = gameObject.AddComponent<PlanExecuter>();
         navAgent = GetComponent<NavMeshAgent>();
         destination = NearestPatrolPoint();
         memory = new WorkingMemory(this);
@@ -39,7 +41,7 @@ public class GoapAgent : MonoBehaviour
         navAgent.SetDestination(destination.transform.position);
 
         Memory firstFact = new Memory() { state = firstMemory };
-        memory.AddMemory(firstFact, new Goal(WorldState.playerSeen));
+        memory.AddMemory(firstFact, new Goal(WorldState.targetSeen));
     }
 
     private PatrolPoint NearestPatrolPoint()
@@ -65,21 +67,11 @@ public class GoapAgent : MonoBehaviour
 
     public void ExecutePlan(Plan plan, GameObject target = null)
     {
-        StartCoroutine(PlanExecuter.main.Execute(plan, gameObject, target));
-    }
-
-    public void DebugMove()
-    {
-        if (searching && Vector3.Distance(transform.position, navAgent.destination) < .5f)
-        {
-            navAgent.SetDestination(destination.transform.position);
-            destination = destination.GetNextPoint();
-        }
+        StartCoroutine(executer.Execute(plan, gameObject, target));
     }
 
     private void DebugDisplayMemories()
     {
-        //debugDisplayMemories = memory.GetMemories();
         List<WorldState> debugStates = new List<WorldState>();
 
         foreach(Memory fact in memory.GetMemories())
@@ -91,7 +83,6 @@ public class GoapAgent : MonoBehaviour
 
     private void Update()
     {
-        //DebugMove();
         DebugDisplayMemories();
     }
 }

@@ -97,7 +97,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -6053382344825935911, guid: f426ce1dcfba687438d518264823f48e, type: 3}
---- !u!114 &5274349216207542440
+--- !u!114 &6778620607823628353
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,7 +106,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3140308588322817491}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 913ce654c00a65b4489420984e5e9d8c, type: 3}
+  m_Script: {fileID: 11500000, guid: de0c6c9ba699cff48a6d861336140c60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   eyePosition: {fileID: 1611678928214231646}
@@ -140,7 +140,6 @@ MonoBehaviour:
   DebugDisplayPlan: []
   agentActionSet: {fileID: 11400000, guid: bce7e2f827099e944a37e2bcbb4f61df, type: 2}
   destination: {fileID: 0}
-  searching: 0
   enemyTag: hunted
   firstMemory: 4
   overrider: {fileID: 22100000, guid: 178469114bed98e41a2905fdc776a8ae, type: 2}
@@ -267,7 +266,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -6053382344825935911, guid: f426ce1dcfba687438d518264823f48e, type: 3}
---- !u!114 &3710394749742562379
+--- !u!114 &4681076634283461849
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -276,7 +275,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5610796321956742085}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 913ce654c00a65b4489420984e5e9d8c, type: 3}
+  m_Script: {fileID: 11500000, guid: de0c6c9ba699cff48a6d861336140c60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   eyePosition: {fileID: 1611678928214231646}
