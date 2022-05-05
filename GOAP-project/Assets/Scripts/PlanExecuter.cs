@@ -63,6 +63,9 @@ public class PlanExecuter : MonoBehaviour
         currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new Memory { state = WorldState.targetSeen, target = currentTarget }, new Goal(WorldState.targetSeen));
         currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new Memory { state = WorldState.targetNear, target = currentTarget }, new Goal(WorldState.targetSeen));
         print("attacked player with melee");
+        currentAgent.GetComponent<CaptivePositions>().AddCaptive(currentTarget);
+
+        
     }
 
     void CastAtPlayer()
