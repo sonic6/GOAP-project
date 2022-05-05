@@ -9,7 +9,8 @@ public enum WorldState
     meleeAvailable, 
     targetNear,
     IsHiding, 
-    FoundKey
+    FoundKey, 
+    GrabbedKey
 }
 
 public struct Memory

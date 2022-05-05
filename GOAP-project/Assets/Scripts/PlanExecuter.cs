@@ -23,12 +23,10 @@ public class PlanExecuter : MonoBehaviour
             AnimationHandler.OverrideAnimation(agent, action.Clip, action.state);
             
             yield return new WaitUntil(() => ConditionChecker(action) == true);
+            print("finished a plan");
             AnimationHandler.ResetAnimatorTriggers(agent);
 
         }
-
-        //Create a new plan with the goal of finding a new player
-        //currentAgent.GetComponent<GoapAgent>().ObtainNewPlan(new Goal(WorldState.targetSeen));
     }
 
     //Returns true if an agent has fullfilled an action's effect
@@ -93,12 +91,17 @@ public class PlanExecuter : MonoBehaviour
     IEnumerator HideUntil()
     {
         Room room = currentAgent.GetComponent<HidingManager>().currentRoom;
+        NavMeshAgent navAgent = currentAgent.GetComponent<NavMeshAgent>();
+        navAgent.SetDestination(currentTarget.transform.position);
+        yield return new WaitUntil(() => (Vector3.Distance(currentAgent.transform.position, navAgent.destination) < .01f));
+        print(room);
         yield return new WaitUntil(() => (room.huntersInRoom.Count == 0));
+        print("finished hiding");
 
         Memory oldMemory = new Memory()
         {
             state = WorldState.IsHiding
         };
-        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(oldMemory, new Goal(WorldState.FoundKey));
+        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(oldMemory, new Goal(WorldState.targetSeen));
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
-    List<HidingSpot> hidingSpots = new List<HidingSpot>();
+    public List<HidingSpot> hidingSpots = new List<HidingSpot>();
     public List<GameObject> huntersInRoom { get; private set; }
 
     private void Awake()
@@ -36,7 +36,10 @@ public class Room : MonoBehaviour
         foreach(HidingSpot spot in hidingSpots)
         {
             if (spot.occupied == false)
+            {
+                print("made it");
                 return spot;
+            }
         }
 
         return null;

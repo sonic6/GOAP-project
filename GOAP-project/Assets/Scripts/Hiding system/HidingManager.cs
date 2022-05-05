@@ -38,11 +38,12 @@ public class HidingManager : MonoBehaviour
     {
         if (other.gameObject.GetComponent<HidingSpot>())
         {
+            print("triggered by hiding spot");
             Memory mem = new Memory()
             {
                 state = WorldState.IsHiding 
             };
-            myAgent.memory.AddMemory(mem, new Goal(WorldState.FoundKey));
+            myAgent.memory.AddMemory(mem, new Goal(WorldState.targetSeen));
         }
     }
 }

@@ -110,6 +110,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eyePosition: {fileID: 1611678928214231646}
+--- !u!54 &9181180273666231292
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3140308588322817491}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!54 &3535130644823939874
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198751081280341862}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!136 &7113177663126226724
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -206,6 +238,7 @@ GameObject:
   - component: {fileID: 425006218815780861}
   - component: {fileID: 8023965100084467755}
   - component: {fileID: 3618396889067129001}
+  - component: {fileID: 8649196221995257852}
   m_Layer: 2
   m_Name: ProximitySensor
   m_TagString: Untagged
@@ -252,6 +285,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ef65191bfc924b43a44fb926240b249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &8649196221995257852
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4740713248562534815}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!64 &1368066509363070811
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -279,6 +328,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eyePosition: {fileID: 1611678928214231646}
+--- !u!54 &2770530775596551762
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5610796321956742085}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &814924211922440648
 PrefabInstance:
   m_ObjectHideFlags: 0
