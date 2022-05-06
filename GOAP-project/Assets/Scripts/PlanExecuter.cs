@@ -20,11 +20,11 @@ public class PlanExecuter : MonoBehaviour
             DisplayPlanConsole(plan);
             
             Invoke(action.name, 0);
-            AnimationHandler.OverrideAnimation(agent, action.Clip, action.state);
+            //AnimationHandler.OverrideAnimation(agent, action.Clip, action.state);
             
             yield return new WaitUntil(() => ConditionChecker(action) == true);
             print("finished a plan");
-            AnimationHandler.ResetAnimatorTriggers(agent);
+            //AnimationHandler.ResetAnimatorTriggers(agent);
 
         }
     }
@@ -47,6 +47,7 @@ public class PlanExecuter : MonoBehaviour
 
     void GoTowards()
     {
+        currentAgent.GetComponent<Animator>().SetTrigger("GoTo");
         print("went towards");
         currentAgent.GetComponent<NavMeshAgent>().SetDestination(currentTarget.transform.position);
 
@@ -59,7 +60,8 @@ public class PlanExecuter : MonoBehaviour
 
     void AttackPlayerMelee()
     {
-        //currentWaitCondition = new WaitCondition() { myBool = false, fact = new Memory { state = WorldState.noState } };
+        currentAgent.GetComponent<Animator>().SetTrigger("melee");
+        
         currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new Memory { state = WorldState.targetSeen, target = currentTarget }, new Goal(WorldState.targetSeen));
         currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new Memory { state = WorldState.targetNear, target = currentTarget }, new Goal(WorldState.targetSeen));
         print("attacked player with melee");
