@@ -20,11 +20,7 @@ public class PlanExecuter : MonoBehaviour
             DisplayPlanConsole(plan);
             
             Invoke(action.name, 0);
-            //AnimationHandler.OverrideAnimation(agent, action.Clip, action.state);
-            
             yield return new WaitUntil(() => ConditionChecker(action) == true);
-            print("finished a plan");
-            //AnimationHandler.ResetAnimatorTriggers(agent);
 
         }
     }
@@ -32,7 +28,6 @@ public class PlanExecuter : MonoBehaviour
     //Returns true if an agent has fullfilled an action's effect
     bool ConditionChecker(ScriptableAction action)
     {
-        print(currentAgent.name + " is checking condition " + action.effectKey + " about target " + currentTarget);
         Memory checkMemory = new Memory() { state = action.effectKey, target = currentTarget };
         return currentAgent.GetComponent<GoapAgent>().memory.ContainsMatchingMemory(checkMemory);
     }
@@ -48,9 +43,7 @@ public class PlanExecuter : MonoBehaviour
     void GoTowards()
     {
         currentAgent.GetComponent<Animator>().SetTrigger("GoTo");
-        print("went towards");
         currentAgent.GetComponent<NavMeshAgent>().SetDestination(currentTarget.transform.position);
-
     }
 
     void Patrol()
@@ -77,7 +70,6 @@ public class PlanExecuter : MonoBehaviour
 
     IEnumerator PatrolUntil()
     {
-        print("patrolling");
         NavMeshAgent navAgent = currentAgent.GetComponent<NavMeshAgent>();
         yield return new WaitUntil(() => (Vector3.Distance(currentAgent.transform.position, navAgent.destination) < .5f));
         
@@ -108,5 +100,19 @@ public class PlanExecuter : MonoBehaviour
             state = WorldState.IsHiding
         };
         currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(oldMemory, new Goal(WorldState.targetSeen));
+    }
+
+    void GrabKey()
+    {
+        currentAgent.GetComponent<Animator>().SetTrigger("key");
+        Memory newFact = new Memory() { state = WorldState.GrabbedKey, target = currentTarget };
+        currentAgent.GetComponent<GoapAgent>().memory.AddMemory(newFact, new Goal(WorldState.targetSeen));
+
+        currentTarget.GetComponent<Key>().GetTaken();
+    }
+
+    void EscapeCastle()
+    {
+        //The game manager has access to the escape door gameobject 
     }
 }

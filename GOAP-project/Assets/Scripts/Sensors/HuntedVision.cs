@@ -29,6 +29,23 @@ public class HuntedVision : VisionSensor
             Memory newFact = new Memory() { state = WorldState.targetSeen, target = spot.gameObject };
             agent.memory.AddMemory(newFact, new Goal(WorldState.IsHiding));
         }
+
+        
+
         yield return null;
+    }
+
+    //Check if the agent sees a key
+    public override void SeeKey(GameObject key)
+    {
+        Physics.Linecast(eyePosition.position, key.transform.position, out hit);
+        Debug.DrawLine(eyePosition.position, key.transform.position);
+
+        if (hit.collider.gameObject == key)
+        {
+            print("sees key");
+            Memory newFact = new Memory() { state = WorldState.targetSeen, target = hit.collider.gameObject };
+            agent.memory.AddMemory(newFact, new Goal(WorldState.targetNear));
+        }
     }
 }

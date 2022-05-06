@@ -6,6 +6,7 @@ TagManager:
   tags:
   - hunted
   - hunter
+  - key
   layers:
   - Default
   - TransparentFX

@@ -9,7 +9,7 @@ public enum WorldState
     meleeAvailable, 
     targetNear,
     IsHiding, 
-    FoundKey, 
+    FoundAllKeys, 
     GrabbedKey
 }
 

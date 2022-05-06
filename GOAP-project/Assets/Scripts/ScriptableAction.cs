@@ -10,7 +10,5 @@ public class ScriptableAction : ScriptableObject
     public WorldState preconditionKey;
     [Space(10)]
     public AnimationClip Clip;
-    [Space(10)]
-    public FsmState state;
 
 }

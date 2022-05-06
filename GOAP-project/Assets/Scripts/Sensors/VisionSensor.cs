@@ -27,8 +27,10 @@ public abstract class VisionSensor : MonoBehaviour
         {
             FovTarget.Add(other.gameObject);
             StartCoroutine(StareAtTarget(other.gameObject));
-            
+
         }
+        else if (other.gameObject.tag.ToLower() == "key")
+            SeeKey(other.gameObject);
     }
 
     private void OnTriggerExit(Collider other)
@@ -44,5 +46,8 @@ public abstract class VisionSensor : MonoBehaviour
 
     //Casts a line of sight towards a target to make sure it is still seen 
     public abstract IEnumerator StareAtTarget(GameObject target);
+
+    //Only overriden by the hunted
+    public virtual void SeeKey(GameObject key) { }
 
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GrabKey
   m_EditorClassIdentifier: 
   cost: 2
-  effectKey: 7
-  preconditionKey: 2
+  effectKey: 8
+  preconditionKey: 5
   Clip: {fileID: 0}
   state: 0

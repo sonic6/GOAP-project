@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HunterVision : VisionSensor
 {
+
     //Casts a line of sight towards a target to make sure it is still seen 
     //Tells the agent that their target was seen
     public override IEnumerator StareAtTarget(GameObject target)
