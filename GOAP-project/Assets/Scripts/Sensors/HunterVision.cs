@@ -20,7 +20,7 @@ public class HunterVision : VisionSensor
         }
 
         //Keep checking that the target is in the line of sight
-        while (FovTarget.Contains(target) && hit.collider.gameObject == target)
+        while (FovTarget.Contains(target) && hit.collider != null && hit.collider.gameObject == target)
         {
             Physics.Linecast(eyePosition.position, target.transform.position, out hit);
             Debug.DrawLine(eyePosition.position, target.transform.position);
@@ -35,6 +35,6 @@ public class HunterVision : VisionSensor
         FovTarget.Remove(target);
         #endregion
 
-
+        yield return null;
     }
 }

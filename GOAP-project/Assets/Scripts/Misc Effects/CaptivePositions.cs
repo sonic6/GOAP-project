@@ -13,7 +13,7 @@ public class CaptivePositions : MonoBehaviour
     {
         foreach(Collider collider in captive.GetComponentsInChildren<Collider>())
         {
-            Destroy(collider);
+            collider.enabled = false;
         }
 
         Destroy(captive.GetComponent<Rigidbody>());

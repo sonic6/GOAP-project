@@ -71,9 +71,9 @@ public class Planner
         List<ScriptableAction> finalGraph = new List<ScriptableAction>();
 
         //Recursively finds the next suitable action
-        //this check stops the recursion if an action has been found that does not have a precondition
+        //this check stops the recursion if the new cheapest action's precondition matches a memory in the working memory
         //and that represents the end node of a A* action graph
-        if (newGoal.goalState != WorldState.noState) 
+        if (/*newGoal.goalState != WorldState.noState*/ !myAgent.memory.ContainsMatchingMemory(new Memory() { state = newGoal.goalState})) 
             finalGraph.AddRange(SearchActions(newGoal, openList, actionSet));
         
         return openList;

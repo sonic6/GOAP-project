@@ -36,7 +36,7 @@ public class PlanExecuter : MonoBehaviour
     {
         foreach(ScriptableAction action in plan.GetActions())
         {
-            print(action.name);
+            print(currentAgent.name + " is doing " + action.name);
         }
     }
 
@@ -54,7 +54,6 @@ public class PlanExecuter : MonoBehaviour
     void AttackPlayerMelee()
     {
         currentAgent.GetComponent<Animator>().SetTrigger("melee");
-        
         currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new Memory { state = WorldState.targetSeen, target = currentTarget }, new Goal(WorldState.targetSeen));
         currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new Memory { state = WorldState.targetNear, target = currentTarget }, new Goal(WorldState.targetSeen));
         print("attacked player with melee");
