@@ -23,7 +23,7 @@ public class Key : MonoBehaviour
 
     void CheckNumberOfKeys()
     {
-        if(collectedKeys == 1)
+        if(collectedKeys == GameManager.manager.keyAmount)
         {
             foreach(GoapAgent agent in GameManager.manager.huntedPlayers)
             {

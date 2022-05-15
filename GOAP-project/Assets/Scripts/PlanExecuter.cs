@@ -112,6 +112,7 @@ public class PlanExecuter : MonoBehaviour
 
     void EscapeCastle()
     {
-        //The game manager has access to the escape door gameobject 
+        Memory newFact = new Memory() { state = WorldState.targetSeen, target = GameManager.manager.escapeDoor };
+        currentAgent.GetComponent<GoapAgent>().memory.AddMemory(newFact, new Goal(WorldState.targetNear));
     }
 }
