@@ -9,6 +9,7 @@ public class HunterVision : VisionSensor
     //Tells the agent that their target was seen
     public override IEnumerator StareAtTarget(GameObject target)
     {
+        
         Physics.Linecast(eyePosition.position, target.transform.position, out hit);
         Debug.DrawLine(eyePosition.position, target.transform.position);
 
@@ -16,8 +17,13 @@ public class HunterVision : VisionSensor
         if (hit.collider.gameObject == target)
         {
             Memory newFact = new Memory() { state = WorldState.targetSeen, target = target.gameObject };
-            agent.memory.AddMemory(newFact, new Goal(WorldState.targetNear));
+            agent.memory.AddMemory(newFact, new Goal(WorldState.playerCaptured));
         }
+        //else //debugging
+        //{
+        //    Debug.LogError("target is " + target.name);
+        //    Debug.LogError("hit.collider.gameObject is " + hit.collider.gameObject.name);
+        //}
 
         //Keep checking that the target is in the line of sight
         while (FovTarget.Contains(target) && hit.collider != null && hit.collider.gameObject == target)

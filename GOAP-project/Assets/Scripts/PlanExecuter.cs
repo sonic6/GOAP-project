@@ -65,7 +65,29 @@ public class PlanExecuter : MonoBehaviour
 
     void CastAtPlayer()
     {
-        print("attacked player with projectile");
+        GoapAgent agent = currentAgent.GetComponent<GoapAgent>();
+
+        //This loop extracts the target object from the memory of targetSeen
+        foreach(Memory memory in currentAgent.GetComponent<GoapAgent>().memory.GetMemories())
+        {
+            if(memory.state == WorldState.targetSeen)
+            {
+                currentTarget = memory.target;
+                break;
+            }
+        }
+
+        currentAgent.GetComponent<Animator>().SetTrigger("projectile");
+        
+        print(currentTarget);
+        GameManager.manager.huntedPlayers.Remove(currentTarget.GetComponent<GoapAgent>());
+        currentAgent.GetComponent<CaptivePositions>().AddCaptive(currentTarget);
+
+        StartCoroutine(agent.GetComponent<ProjectileManager>().RefreshProjectile());
+
+        currentAgent.GetComponent<GoapAgent>().memory.RemoveMemory(new Memory { state = WorldState.targetSeen, target = currentTarget }, new Goal(WorldState.targetSeen));
+        Memory mem = new Memory() { state = WorldState.projectileAvailable };
+        agent.memory.RemoveMemory(mem, new Goal(WorldState.targetSeen));
     }
 
     IEnumerator PatrolUntil()

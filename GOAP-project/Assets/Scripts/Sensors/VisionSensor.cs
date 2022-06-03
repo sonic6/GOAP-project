@@ -25,6 +25,7 @@ public abstract class VisionSensor : MonoBehaviour
     {
         if (other.gameObject.tag.ToLower() == agent.enemyTag)
         {
+            print(gameObject.transform.parent.name + " sees enemy");
             FovTarget.Add(other.gameObject);
             StartCoroutine(StareAtTarget(other.gameObject));
 

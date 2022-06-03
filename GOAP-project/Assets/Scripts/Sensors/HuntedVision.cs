@@ -29,8 +29,13 @@ public class HuntedVision : VisionSensor
             Memory newFact = new Memory() { state = WorldState.targetSeen, target = spot.gameObject };
             agent.memory.AddMemory(newFact, new Goal(WorldState.IsHiding));
         }
+        //else //debugging
+        //{
+        //    Debug.LogError(transform.parent.name + " target is " + target.name);
+        //    Debug.LogError(transform.parent.name + "hit.collider.gameObject is " + hit.collider.gameObject.name);
+        //}
 
-        
+
 
         yield return null;
     }

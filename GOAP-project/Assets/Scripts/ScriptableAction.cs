@@ -8,7 +8,5 @@ public class ScriptableAction : ScriptableObject
     public WorldState effectKey;
     [Space(10)]
     public WorldState preconditionKey;
-    [Space(10)]
-    public AnimationClip Clip;
 
 }
